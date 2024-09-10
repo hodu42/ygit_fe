@@ -11,6 +11,7 @@ import { MdAddAPhoto } from "react-icons/md";
 import React from 'react'
 import { FolderComponent } from './FolderComponent'
 import { ImageComponent } from './ImageComponent'
+import { SearchBox } from './SearchBox'
 
 export function IconMenus(): React.ReactElement {
 
@@ -32,9 +33,10 @@ export function IconMenus(): React.ReactElement {
           <FolderComponent fileName={kor}/>
         </TabPanel>
         <TabPanel>
-          <FolderComponent fileName={eng}/>
+          <SearchBox/>
         </TabPanel>
-        <TabPanel display="flex">
+        <TabPanel display="flex" flexDirection="column">
+          <SearchBox/>
           <FolderComponent fileName={eng}/>
           <ImageComponent fileName={korEng} imageSrc={image}/>
           <ImageComponent fileName={korEng} imageSrc={image}/>
