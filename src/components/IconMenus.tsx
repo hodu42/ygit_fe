@@ -8,9 +8,17 @@ import {
 import { FaCloudArrowUp } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto } from "react-icons/md";
-import { MainLogo } from './MainLogo'
+import React from 'react'
+import { FolderComponent } from './FolderComponent'
+import { ImageComponent } from './ImageComponent'
 
-export function IconMenus() {
+export function IconMenus(): React.ReactElement {
+
+  const kor = "안녕하세요안녕하세요안녕하세요안녕하세요.jpg";
+  const eng = "hihihihihihihihihihihihihihihihihihihihihihiskladfjklasdjflsdjflkjsd.jpg";
+  const korEng = "안sdffdasdfㅇ하잉ㄴsdfsdfsdfsdfㄴㅇ리만ㅇㄹㅇㄴㄴㄹ.jpg";
+  const image = "https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200";
+  const image2 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYt-AZqr1QCfIrx9MbWxLRgrQz7VvQNX-84g&s";
   return (
     <Tabs isLazy align="center" defaultIndex={1} variant="unstyled">
       <TabList display="flex" width={400} height={120} justifyContent="space-between">
@@ -21,16 +29,18 @@ export function IconMenus() {
 
       <TabPanels>
         <TabPanel>
-          <MainLogo/>
-          <p>one!</p>
+          <FolderComponent fileName={kor}/>
         </TabPanel>
         <TabPanel>
-          <MainLogo/>
-          <p>two!</p>
+          <FolderComponent fileName={eng}/>
         </TabPanel>
-        <TabPanel>
-          <MainLogo/>
-          <p>three!</p>
+        <TabPanel display="flex">
+          <FolderComponent fileName={eng}/>
+          <ImageComponent fileName={korEng} imageSrc={image}/>
+          <ImageComponent fileName={korEng} imageSrc={image}/>
+          <ImageComponent fileName={korEng} imageSrc={image}/>
+          <ImageComponent fileName={korEng} imageSrc={image}/>
+          <ImageComponent fileName={korEng} imageSrc={image2}/>
         </TabPanel>
       </TabPanels>
     </Tabs>
