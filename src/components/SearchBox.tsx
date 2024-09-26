@@ -5,9 +5,28 @@ import {
   TagCloseButton, HStack, Select, Box, Text
 } from '@chakra-ui/react'
 import { IoSearchSharp } from "react-icons/io5";
-import React from 'react';
+import React, { useEffect } from 'react'
 
 export function SearchBox() {
+  const [searchKeyword, setSearchKeyword] = React.useState<string>("");
+  const [searchTagList, setSearchTagList] = React.useState<string[]>([]);
+  const [modelList, setModelList] = React.useState<string[]>([]);
+
+  useEffect( () => { // 서버로 부터 받아오는 코드
+    setModelList([`COCO`, 'Object 365', '나만의 모델']);
+  }, []);
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && searchKeyword.trim() !== '' && !searchTagList.find((keyword) => keyword === searchKeyword)) {
+      setSearchTagList(prevTags => [...prevTags, searchKeyword.trim()]);
+      setSearchKeyword(''); // 입력 필드 초기화
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setSearchTagList(prevTags => prevTags.filter(tag => tag !== tagToRemove));
+  };
+
   return (
     <Box width='80%'>
       <Box display="flex" justifyContent='space-evenly'>
@@ -24,6 +43,9 @@ export function SearchBox() {
             fontSize="1.3rem"
             fontWeight={600}
             focusBorderColor="#0dcbe4"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
         </InputGroup>
         <Box ml='-15rem' width='40%' display="flex" justifyContent='space-between' alignItems="center">
@@ -45,17 +67,20 @@ export function SearchBox() {
                 fontWeight: '600'
               },
             }}>
-            <option value='option1'>COCO</option>
-            <option value='option2'>Object 365</option>
+            {
+              modelList.map((model) => (
+                <option value={model}>{model}</option>
+              ))
+            };
           </Select>
         </Box>
 
       </Box>
       <HStack spacing={4} mt={5} mb={5}>
-        {['태그1', '태그2', '태그3', '있있있', '동해물과백두산이마르고닳도록'].map((content) => (
+        {searchTagList.map((tag) => (
           <Tag
             size='lg'
-            key={content}
+            key={tag}
             borderRadius='full'
             variant='solid'
             bg='#0DCBE4'
@@ -67,10 +92,10 @@ export function SearchBox() {
               padding: '1rem'
             }}
           >
-            <TagLabel>{content}</TagLabel>
-            <TagCloseButton />
+            <TagLabel>{tag}</TagLabel>
+            <TagCloseButton onClick={() => removeTag(tag)} />
           </Tag>
-        ))}
+        ))};
       </HStack>
     </Box>
   );
