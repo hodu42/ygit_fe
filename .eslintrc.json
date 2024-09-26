@@ -15,6 +15,7 @@
     "no-var": "error",
     "no-multiple-empty-lines": "error",
     "no-console": ["error", { "allow": ["warn", "error", "info"] }],
+    "no-nested-ternary": "off",
     "eqeqeq": "error",
     "dot-notation": "error",
     "no-unused-vars": "warn",
