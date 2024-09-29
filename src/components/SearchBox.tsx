@@ -2,7 +2,7 @@ import {
   Icon, Input, InputGroup, InputLeftElement,
   Tag,
   TagLabel,
-  TagCloseButton, HStack, Select, Box, Text
+  TagCloseButton, HStack, Wrap, Select, Box, Text, WrapItem
 } from '@chakra-ui/react'
 import { IoSearchSharp } from "react-icons/io5";
 import React, { useEffect } from 'react'
@@ -32,7 +32,7 @@ export function SearchBox() {
       <Box display="flex" justifyContent='space-evenly'>
         <InputGroup>
           <InputLeftElement width="5%" height="60px" pointerEvents="none">
-            <Icon as={IoSearchSharp} boxSize="45px" color="#0dcbe4" />
+            <Icon as={IoSearchSharp} boxSize="30px" color="#0dcbe4" />
           </InputLeftElement>
 
           <Input
@@ -76,27 +76,28 @@ export function SearchBox() {
         </Box>
 
       </Box>
-      <HStack spacing={4} mt={5} mb={5}>
+      <Wrap spacing={4} mt={7} mb={5} ml={7}>
         {searchTagList.map((tag) => (
-          <Tag
-            size='lg'
-            key={tag}
-            borderRadius='full'
-            variant='solid'
-            bg='#0DCBE4'
-            fontWeight='900'
-            fontFamily='Pretendard'
-            fontSize='1.15rem'
-            sx={{
-              height: '3rem',
-              padding: '1rem'
-            }}
-          >
-            <TagLabel>{tag}</TagLabel>
-            <TagCloseButton onClick={() => removeTag(tag)} />
-          </Tag>
-        ))};
-      </HStack>
+          <WrapItem key={tag}>
+            <Tag
+              size='lg'
+              borderRadius='full'
+              variant='solid'
+              bg='#0DCBE4'
+              fontWeight='900'
+              fontFamily='Pretendard'
+              fontSize='1.15rem'
+              sx={{
+                height: '2.5rem',
+                padding: '1rem'
+              }}
+            >
+              <TagLabel>{tag}</TagLabel>
+              <TagCloseButton onClick={() => removeTag(tag)} />
+            </Tag>
+          </WrapItem>
+        ))}
+      </Wrap>
     </Box>
   );
 }
