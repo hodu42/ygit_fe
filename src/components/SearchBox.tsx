@@ -2,7 +2,7 @@ import {
   Icon, Input, InputGroup, InputLeftElement,
   Tag,
   TagLabel,
-  TagCloseButton, HStack, Wrap, Select, Box, Text, WrapItem
+  TagCloseButton, Wrap, Select, Box, Text, WrapItem
 } from '@chakra-ui/react'
 import { IoSearchSharp } from "react-icons/io5";
 import React, { useEffect } from 'react'
@@ -28,14 +28,16 @@ export function SearchBox() {
   };
 
   return (
-    <Box width='80%'>
-      <Box display="flex" justifyContent='space-evenly'>
+    <Box mt={5} mb={10}>
+      <Box display="flex" justifyContent='space-between'>
         <InputGroup>
           <InputLeftElement width="5%" height="60px" pointerEvents="none">
             <Icon as={IoSearchSharp} boxSize="30px" color="#0dcbe4" />
           </InputLeftElement>
 
           <Input
+            bg='#FFF'
+            borderColor='transparent'
             pl="5%"
             width='70%'
             height="60px"
@@ -45,10 +47,10 @@ export function SearchBox() {
             focusBorderColor="#0dcbe4"
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
           />
         </InputGroup>
-        <Box ml='-15rem' width='40%' display="flex" justifyContent='space-between' alignItems="center">
+        <Box width='40rem' display="flex" justifyContent='space-between' alignItems="center">
           <Text fontSize='1.6rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>사용할 모델</Text>
           <Select
             width='15rem'
@@ -74,9 +76,8 @@ export function SearchBox() {
             };
           </Select>
         </Box>
-
       </Box>
-      <Wrap spacing={4} mt={7} mb={5} ml={7}>
+      <Wrap spacing={4} mt={10} mb={5} ml={7}>
         {searchTagList.map((tag) => (
           <WrapItem key={tag}>
             <Tag
@@ -89,9 +90,9 @@ export function SearchBox() {
               fontSize='1.15rem'
               sx={{
                 height: '2.5rem',
-                padding: '1rem'
+                padding: '1rem',
               }}
-            >
+              >
               <TagLabel>{tag}</TagLabel>
               <TagCloseButton onClick={() => removeTag(tag)} />
             </Tag>
