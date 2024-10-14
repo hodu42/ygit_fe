@@ -28,7 +28,7 @@ export function SearchBox() {
   };
 
   return (
-    <Box mt={5} mb={10}>
+    <Box mt={30}>
       <Box display="flex" justifyContent='space-between'>
         <InputGroup>
           <InputLeftElement width="5%" height="60px" pointerEvents="none">

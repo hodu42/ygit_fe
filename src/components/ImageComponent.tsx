@@ -22,7 +22,7 @@ export function ImageComponent({ id, name, src, tags }: ImageType) {
       <Box width={200} display='flex' justifyContent='center' alignItems='center'>
         <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
           <Image width={200} height={120} objectFit="contain" src={src} alt={name}/>
-          <Text fontSize="1.2rem" fontWeight={900}>
+          <Text fontSize="1.2rem">
             {fileNameWithoutExtension.length > maxFileNameLength
               ? `${fileNameWithoutExtension.slice(0, maxFileNameLength)}...`
               : fileNameWithoutExtension

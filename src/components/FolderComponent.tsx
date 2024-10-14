@@ -26,7 +26,7 @@ export function FolderComponent({ folderName, onClick}: FolderComponentProps) {
                 _hover={{color: '#0DA3E4'}}
                 transition='color 0.2s ease'
           />
-          <Text fontSize="1.2rem" fontWeight={900} noOfLines={2} maxWidth="100%">
+          <Text fontSize="1.2rem" noOfLines={2} maxWidth="100%">
             {folderName}
           </Text>
         </Box>

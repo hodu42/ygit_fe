@@ -3,12 +3,23 @@ import {
   TabPanel,
   Tabs,
   TabList,
-  Tab, TabPanels, Box, SimpleGrid, Text, Button, ButtonGroup
+  Tab,
+  TabPanels,
+  Box,
+  SimpleGrid,
+  Text,
+  Button,
+  ButtonGroup,
+  Link as ChakraLink,
+  Image as ChakraImage, Flex, Alert, AlertIcon, WrapItem, Tag, TagLabel, TagCloseButton, Wrap, TagLeftIcon
 } from '@chakra-ui/react'
-import { FaCloudArrowUp } from "react-icons/fa6";
+import { Link as ReactRouterLink } from 'react-router-dom'
+import { FaCloudArrowUp, FaTrashCan } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto, MdOutlineFileUpload } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
+import { HiHashtag } from 'react-icons/hi';
+import { TbArrowBackUp } from "react-icons/tb";
 import React, { useEffect, useState } from 'react'
 import { Image } from '@types';
 import { FolderComponent } from './FolderComponent';
@@ -16,11 +27,30 @@ import { ImageComponent } from './ImageComponent';
 import { SearchBox } from './SearchBox';
 import { MainLogo } from './MainLogo';
 import { MyPageMenu } from './MyPageMenu';
+import { UploadSuccessToast } from './UploadSuccessToast'
+import { ImageUploadTab } from '../tabs/ImageUploadTab'
+import { MyLearningTab } from '../tabs/MyLearningTab'
 
 export function IconMenus(): React.ReactElement {
 
   const [folderList, setFolderList] = React.useState<string[]>([]);
   const [searchResult, setSearchResult] = React.useState<Image[]>([]);
+
+  const { uploadToast } = UploadSuccessToast();
+
+  const handleUpload = () => {
+    uploadToast()
+  }
+
+  const testComponent = (): React.ReactElement =>
+    (
+      <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
+        <ChakraImage width='200px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
+        <Text fontSize="1.2rem">
+          대충 파일이름.jpg
+        </Text>
+      </Box>
+      )
 
   const img1: Image = {
     id: "ss",
@@ -36,7 +66,7 @@ export function IconMenus(): React.ReactElement {
   };
 
   // 폴더 이름 배열
-  const folders = ["폴더1", "폴더2", "폴더3"];
+  const folders = ["폴더1", "폴더2", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3"];
 
   useEffect(() => {
     // 초기 폴더 및 이미지 설정
@@ -56,8 +86,8 @@ export function IconMenus(): React.ReactElement {
   };
 
   return (
-    <Tabs isLazy align="center" defaultIndex={1} variant="unstyled">
-      <Box position="relative" height={120}>
+    <Tabs isLazy align="center" defaultIndex={1} variant="unstyled" overflow='hidden'>
+      <Box position="sticky" top={0} height={120} bg='#FFF' zIndex='10'>
         <MainLogo />
         <TabList display="flex" width={400} height={120} justifyContent="space-between">
           <Tab _selected={{ color: '#0dcbe4' }}><Icon as={FaCloudArrowUp} boxSize={85} /></Tab>
@@ -67,30 +97,12 @@ export function IconMenus(): React.ReactElement {
         <MyPageMenu />
       </Box>
 
-      <TabPanels bg='#F4F6F9'>
-        <TabPanel>
-          <Box width='80%' height='77vh' borderRadius={5} bg='#FFF' mt={30} mb={30}>
-            <Box pt={200} pb={150}>
-              <Icon as={FiUpload} boxSize={100} color='#DBDBDB' mb={5}/>
-              <Text fontSize="2.2rem"
-                    fontWeight={900}
-                    color='#DBDBDB'
-              >업로드 할 이미지를 드래그하거나,<br/>
-                파일 탐색기에서 선택하세요.</Text>
-            </Box>
-            <Button bg='#0DCBE4'
-                      color='white'
-                      borderColor='transparent'
-                      fontSize="1.7rem"
-                      fontWeight={900}
-                      _hover={{backgroundColor: '#0DA3E4'}}
-                      sx={{ padding: '27px 30px' }}>
-                파일 탐색기에서 열기
-            </Button>
-          </Box>
+      <TabPanels bg='#F4F6F9' height='890px'>
+        <TabPanel overflow='hidden'>
+          <ImageUploadTab/>
         </TabPanel>
-        <TabPanel>
-          <Box width='80%' height='80vh'>
+        <TabPanel overflowY='auto' height='87vh'>
+          <Flex width='80%' flexDirection='column'>
             <SearchBox />
             <SimpleGrid justifyItems='center' columns={6} spacingY={8} mt={4}>
               {
@@ -104,10 +116,10 @@ export function IconMenus(): React.ReactElement {
                 ))
               }
             </SimpleGrid>
-          </Box>
+          </Flex>
         </TabPanel>
-        <TabPanel display="flex" flexDirection="column">
-          <div />
+        <TabPanel overflow='hidden' height='87vh'>
+          <MyLearningTab/>
         </TabPanel>
       </TabPanels>
     </Tabs>
