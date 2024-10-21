@@ -40,16 +40,6 @@ export const MyLearningTab = () => {
         {testComponent()}
         {testComponent()}
         {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
       </Flex>
       <Box display="flex" flexDirection='column' alignItems='center'>
         <Box display='flex' alignItems='center' mt='20px'>
