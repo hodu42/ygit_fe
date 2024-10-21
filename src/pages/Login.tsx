@@ -17,12 +17,12 @@ export const Login = () => {
   const [id, setId] = React.useState('');
   const [pw, setPw] = React.useState('');
   const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show);
+
   return (
     <Flex bg='#F4F6F9' width='100%' height='100vh' alignItems='center'>
-      <Flex width='55rem' height='45rem' flexDirection="column" bg="white" margin='0 auto'>
-        <Flex flexDirection="column" width='80%' height='45rem' margin='0 auto'>
-          <Flex alignItems='center' justifyContent='center' padding='3rem 0'>
+      <Flex width='55rem' height='45rem' flexDirection="column" bg="white" margin='0 auto' borderRadius='10px' justifyContent='center' alignItems='center'>
+        <Flex flexDirection="column" width='80%'>
+          <Flex alignItems='center' justifyContent='center' pb='3rem'>
             <Icon as={HiHashtag} boxSize={75} color="#0DCBE4" />
             <Text fontSize="2.5rem" fontWeight={900}>여기있태</Text>
           </Flex>
@@ -80,7 +80,7 @@ export const Login = () => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Flex position='relative' justifyContent='center' alignItems='center' height='100%'>
+          <Flex position='relative' justifyContent='center' alignItems='center' pt='5rem'>
             <Button
               bg='#0DCBE4'
               color='white'
@@ -102,7 +102,7 @@ export const Login = () => {
               display="inline-flex"
               color='#47484a'
             >
-              <Text fontSize="2.2rem" >Register</Text>
+              <Text fontSize="1.8rem" >Register</Text>
             </ChakraLink>
           </Flex>
         </Flex>
