@@ -8,7 +8,7 @@ export function ImageUploadTab() {
       <Box pt={200} pb={150}>
         <Icon as={FiUpload} boxSize={100} color='#DBDBDB' mb={5}/>
         <Text fontSize="2.2rem"
-              fontWeight={900}
+              fontWeight={700}
               color='#DBDBDB'>업로드 할 이미지를 드래그하거나,<br/>
           파일 탐색기에서 선택하세요.</Text>
       </Box>
@@ -16,7 +16,7 @@ export function ImageUploadTab() {
               color='white'
               borderColor='transparent'
               fontSize="1.7rem"
-              fontWeight={900}
+              fontWeight={700}
               _hover={{backgroundColor: '#0DA3E4'}}
               sx={{
                 padding: '27px 30px',
