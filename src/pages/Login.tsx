@@ -24,7 +24,7 @@ export const Login = () => {
         <Flex flexDirection="column" width='80%'>
           <Flex alignItems='center' justifyContent='center' pb='3rem'>
             <Icon as={HiHashtag} boxSize={75} color="#0DCBE4" />
-            <Text fontSize="2.5rem" fontWeight={900}>LOGIN</Text>
+            <Text fontSize="2.5rem" fontWeight={900}>Login</Text>
           </Flex>
           <Flex flexDirection="column" alignItems='center'>
             <Text pl='2rem' width='80%' ml='2rem' fontSize='1.6rem' fontFamily='Pretendard' fontWeight='600'>ID</Text>
