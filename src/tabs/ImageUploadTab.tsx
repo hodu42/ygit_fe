@@ -1,4 +1,4 @@
-import { Box, Button, Icon, Text } from '@chakra-ui/react'
+import { Box, Button, Icon, Input, Text } from '@chakra-ui/react'
 import { FiUpload } from 'react-icons/fi'
 
 // 파일 업로드 화면 컴포넌트

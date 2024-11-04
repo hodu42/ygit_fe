@@ -11,7 +11,7 @@ export function MyPageMenu(): React.ReactElement {
       right={10}
       top={0}
       as={ReactRouterLink}
-      to="/"
+      to="/mypage"
       display="inline-flex"
       alignItems="center"
       height="100%" // 부모 요소의 높이에 맞추기

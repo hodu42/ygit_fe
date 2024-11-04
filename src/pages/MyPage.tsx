@@ -39,6 +39,7 @@ export const MyPage = () => {
                         <Select
                             width='30%'
                             height='50px'
+                            mr='20px'
                             bg='#0DCBE4'
                             color='white'
                             borderColor='none'
