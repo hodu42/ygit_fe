@@ -85,7 +85,7 @@ export function SearchBox() {
               borderRadius='full'
               variant='solid'
               bg='#0DCBE4'
-              fontWeight='900'
+              fontWeight='700'
               fontFamily='Pretendard'
               fontSize='1.15rem'
               sx={{

@@ -41,7 +41,7 @@ export const MyLearningTab = () => {
         {testComponent()}
         {testComponent()}
       </Flex>
-      <Box display="flex" flexDirection='column' alignItems='center'>
+      <Box display="flex" flexDirection='column' width='80%' alignItems='center' marginTop='20px' borderTop='3px solid #E8E9EB'>
         <Box display='flex' alignItems='center' mt='20px'>
           <Text mr='10px' fontSize='1.5rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>학습시킬 모델 :</Text>
           <Select
@@ -88,7 +88,7 @@ export const MyLearningTab = () => {
             color='white'
             borderColor='transparent'
             fontSize="1.4rem"
-            fontWeight={900}
+            fontWeight={700}
             height='50px'
             ml='40px'
             _hover={{backgroundColor: '#0DA3E4'}}
@@ -104,7 +104,7 @@ export const MyLearningTab = () => {
       <Box pt={200} pb={150}>
       <Icon as={FiUpload} boxSize={100} color='#DBDBDB' mb={5}/>
       <Text fontSize="2.2rem"
-            fontWeight={900}
+            fontWeight={700}
             color='#DBDBDB'>학습시킬 이미지들을<br/>
         파일 탐색기에서 선택하세요.</Text>
     </Box>
@@ -112,7 +112,7 @@ export const MyLearningTab = () => {
             color='white'
             borderColor='transparent'
             fontSize="1.7rem"
-            fontWeight={900}
+            fontWeight={700}
             _hover={{backgroundColor: '#0DA3E4'}}
             sx={{
               padding: '27px 30px',
