@@ -1,9 +1,7 @@
-import { Link as ChakraLink } from '@chakra-ui/layout/dist/link'
 import { Link as ReactRouterLink } from 'react-router-dom'
-import { Box, Icon, Tag, TagLabel, TagLeftIcon, Text, Wrap, WrapItem } from '@chakra-ui/react'
+import { Box, Icon, Tag, TagLabel, TagLeftIcon, Text, Wrap, WrapItem, Image, Link as ChakraLink } from '@chakra-ui/react'
 import { TbArrowBackUp } from 'react-icons/tb'
 import { FaTrashCan } from 'react-icons/fa6'
-import { Image as ChakraImage } from '@chakra-ui/image/dist/image'
 import { HiHashtag } from 'react-icons/hi'
 import React from 'react'
 
@@ -42,7 +40,7 @@ export const DetailedImageTab = () => {
       </ChakraLink>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
       <Box display="flex" flexDirection="column" justifyContent='center' alignItems='center'>
-        <ChakraImage width='500px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
+        <Image width='500px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
         <Text mt='7rem' fontSize="1.5rem">
           대충 파일이름.jpg
         </Text>
