@@ -20,24 +20,14 @@ import { FaTrashCan } from 'react-icons/fa6'
 import { HiHashtag } from 'react-icons/hi'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
+import useToastHandler from '../components/useToastHandler'
 
 // 파일 업로드 화면 컴포넌트
 export function ImageUploadTab():React.JSX.Element {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [img, setImg] = useState<Image | null>(null);
-  const toast = useToast();
-
-  // Toast 알림을 표시하는 함수
-  const showToast = (title: string, description: string, status: 'success' | 'error') => {
-    toast({
-      title: title,
-      description: description,
-      status: status,
-      duration: 6000,
-      isClosable: true,
-    });
-  };
+  const showToast = useToastHandler();
 
   // 파일을 업로드 하는 코드
   const handleImageUpload = async (file: Blob) => {
@@ -54,7 +44,6 @@ export function ImageUploadTab():React.JSX.Element {
       })
       // 서버에서 반환된 데이터 처리
     } catch (error) {
-      alert('파일 업로드에 실패하였습니다.')
     }
   }
 
@@ -75,7 +64,6 @@ export function ImageUploadTab():React.JSX.Element {
       return data
       // 서버에서 반환된 데이터 처리
     } catch (error) {
-      alert('태그 추출에 실패하였습니다.')
     }
   }
 
