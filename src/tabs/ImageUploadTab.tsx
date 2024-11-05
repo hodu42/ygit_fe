@@ -47,7 +47,7 @@ export function ImageUploadTab():React.JSX.Element {
   }
 
   // 이미지로부터 태그 리스트를 가져오는 코드
-  const getTagsFromImg = async (file: Blob):Promise<string[]> => {
+  const getTagsFromImg = async (file: Blob) => {
     // FormData 객체 생성
     const formData = new FormData()
     formData.append('file', file)
