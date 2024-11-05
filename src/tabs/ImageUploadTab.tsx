@@ -18,24 +18,52 @@ import { Image } from '@types'
 import { FaTrashCan } from 'react-icons/fa6'
 import { HiHashtag } from 'react-icons/hi'
 import { BackButton } from '../components/BackButton'
+import axios from 'axios'
+import { BASE_URL } from '../config/Config'
 
 // 파일 업로드 화면 컴포넌트
 export function ImageUploadTab():React.JSX.Element {
-  /* eslint-disable no-console */
-
-  // 테스트용 컴포넌트
-  // const testComponent = (): React.ReactElement =>
-  //   (
-  //     <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
-  //       <ChakraImage width='200px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
-  //       <Text fontSize="1.2rem">
-  //         대충 파일이름.jpg
-  //       </Text>
-  //     </Box>
-  //   )
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [img, setImg] = useState<Image | null>(null);
+
+  // 파일을 업로드 하는 코드
+  const handleImageUpload = async (file: Blob) => {
+    // FormData 객체 생성
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const response = await axios.post(`${BASE_URL}/upload-image`, formData, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`, // 인증 토큰 포함
+        },
+      })
+      return response.data;
+      // 서버에서 반환된 데이터 처리
+    } catch (error) {
+      alert('파일 업로드에 실패하였습니다.')
+    }
+  }
+
+  // 이미지로부터 태그 리스트를 가져오는 코드
+  const getTagsFromImg = async (file: Blob):Promise<string[]> => {
+    // FormData 객체 생성
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const response = await axios.post(`${BASE_URL}/extract-tags`, formData, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`, // 인증 토큰 포함
+        },
+      })
+      return response.data;
+      // 서버에서 반환된 데이터 처리
+    } catch (error) {
+      alert('태그 추출에 실패하였습니다.')
+    }
+  }
 
   // 이미지 드롭했을 때 발생하는 이벤트 코드
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -47,6 +75,8 @@ export function ImageUploadTab():React.JSX.Element {
 
     if (files && files.length > 0) {
       const file = files[0];
+      const img = handleImageUpload(file);
+      const tags =
       const reader = new FileReader();
 
       reader.readAsDataURL(file);
@@ -65,6 +95,7 @@ export function ImageUploadTab():React.JSX.Element {
       };
     }
   }
+
   // 브라우저의 기본 이벤트 없애기
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -73,32 +104,39 @@ export function ImageUploadTab():React.JSX.Element {
   const onUploadImageBtnClick = () => {
     inputRef.current?.click();
   };
+
   // 버튼으로 이미지 업로드 했을 때 실행하는 코드
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const {files} = e.target;
 
     if (files && files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
 
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        // reader.result가 string일 때만 상태 업데이트
-        if (typeof reader.result === 'string') {
-          // 통신으로 가져온 이미지객체를 setImg하기
-          setImg({ 
-            name: file.name,
-            src: reader.result, // Data URL
-            id: '',
-            tags: ['새']
-          });
+      try {
+        const reader = new FileReader()
+        const result = handleImageUpload(file);
+
+        reader.readAsDataURL(file)
+        reader.onloadend = () => {
+          // reader.result가 string일 때만 상태 업데이트
+          if (typeof reader.result === 'string') {
+            // 통신으로 가져온 이미지객체를 setImg하기 (현재는 임시)
+            setImg({
+              id: result.id,
+              name: result.name,
+              src: reader.result, // Data URL
+              tags: ['새'],
+            })
+          }
         }
-      };
+      } catch(any) {
+        alert('이미지 업로드 실패');
+      }
     }
   }, []);
   return (
     <Box>
-      {/* 이미지가 없으면 업로드화면  / 있으면 이미지 보여줌 */}
+      {/* 이미지가 없으면 업로드화면 / 있으면 이미지 보여줌 */}
       {img ? (
         <Box display='flex'
              flexDirection='column'
