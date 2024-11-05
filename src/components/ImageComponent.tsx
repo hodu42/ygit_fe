@@ -3,7 +3,7 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom'
 import { Image as ImageType } from "@types"
 
-export function ImageComponent({ id, name, src, tags }: ImageType):React.ReactElement {
+export function ImageComponent({ name, src, tags }: ImageType):React.ReactElement {
   // 파일 이름과 확장자 분리
   const parts = name.split('.');
   const extension = parts.length > 1 ? parts.pop() : ''; // 확장자가 없을 경우 빈 문자열
