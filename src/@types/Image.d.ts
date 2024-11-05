@@ -1,8 +1,7 @@
 declare module "@types" {
-  interface Image {
-    id: string;
+  type Image = {
     name: string;
     src: string;
     tags: string[];
-  }
+  };
 }
