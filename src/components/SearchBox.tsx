@@ -24,6 +24,7 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
   useEffect( () => { // 서버로 부터 받아오는 코드
     // 서버로부터 모델 리스트를 받아오는 코드
     setModelList([`COCO`, 'Object 365', '나만의 모델']);
+    handleSearch();
   }, []);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
