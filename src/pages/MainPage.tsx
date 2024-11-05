@@ -24,7 +24,6 @@ import { ImageComponent } from '../components/ImageComponent';
 import { SearchBox } from '../components/SearchBox';
 import { MainLogo } from '../components/MainLogo';
 import { MyPageMenu } from '../components/MyPageMenu';
-import { UploadSuccessToast } from '../components/UploadSuccessToast'
 import { ImageUploadTab } from '../tabs/ImageUploadTab'
 import { MyLearningTab } from '../tabs/MyLearningTab'
 import { Logout } from '../components/Logout'
@@ -34,7 +33,6 @@ export function MainPage(): React.ReactElement {
   const [folderList, setFolderList] = React.useState<string[]>([]);
   const [searchResult, setSearchResult] = React.useState<Image[]>([]);
   const navigate = useNavigate();
-  const { uploadToast } = UploadSuccessToast();
 
   // 로그인 안되어있으면 로그인 페이지로 자동 리다이렉션
   useEffect(() => {
@@ -43,10 +41,6 @@ export function MainPage(): React.ReactElement {
         navigate('/login');
       }
   }, []);
-
-  const handleUpload = () => {
-    uploadToast()
-  }
 
   useEffect(() => {
     // 초기 폴더 및 이미지 설정
