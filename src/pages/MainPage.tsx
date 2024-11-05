@@ -7,17 +7,13 @@ import {
   TabPanels,
   Box,
   SimpleGrid,
-  Text,
-  Button,
-  ButtonGroup,
-  Link as ChakraLink,
-  Image as ChakraImage, Flex, Alert, AlertIcon, WrapItem, Tag, TagLabel, TagCloseButton, Wrap, TagLeftIcon
+  Flex,
 } from '@chakra-ui/react'
-import { Link as ReactRouterLink, useNavigate } from 'react-router-dom'
-import { FaCloudArrowUp, FaTrashCan } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom'
+import { FaCloudArrowUp } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
-import { MdAddAPhoto, MdOutlineFileUpload } from "react-icons/md";
-import React, { useEffect, useState } from 'react'
+import { MdAddAPhoto } from "react-icons/md";
+import React, { useEffect } from 'react'
 import { Image } from '@types';
 import { FolderComponent } from '../components/FolderComponent';
 import { ImageComponent } from '../components/ImageComponent';

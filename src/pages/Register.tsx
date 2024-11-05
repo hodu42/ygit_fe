@@ -1,8 +1,6 @@
 import React from "react";
-import {Button, Flex, Icon, Input, InputGroup, InputRightElement, Text, Link as ChakraLink} from "@chakra-ui/react";
+import { Button, Flex, Icon, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 import {HiHashtag} from "react-icons/hi";
-import {Link as ReactRouterLink } from "react-router-dom";
-import {TbArrowBackUp} from "react-icons/tb";
 import {BackButton} from "../components/BackButton";
 import axios, { AxiosResponse } from 'axios'
 import { BASE_URL } from '../config/Config'

@@ -10,7 +10,6 @@ import {
   Tag,
   TagLeftIcon,
   TagLabel,
-  useToast
 } from '@chakra-ui/react'
 import { FiUpload } from 'react-icons/fi'
 import React, { useRef, useState } from 'react'

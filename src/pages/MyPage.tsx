@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Button, Flex, Icon, Input, InputGroup, InputRightElement, Select, Text} from "@chakra-ui/react";
+import { Button, Flex, Icon, Input, Select, Text} from "@chakra-ui/react";
 import {HiHashtag} from "react-icons/hi";
 import {BackButton} from "../components/BackButton";
 

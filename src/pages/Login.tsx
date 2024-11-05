@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Flex,
   Icon,
@@ -15,12 +14,14 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
 import qs from 'qs'
+import useToastHandler from '../components/useToastHandler'
 
 export const Login = ():React.JSX.Element => {
   const [id, setId] = React.useState('');
   const [pw, setPw] = React.useState('');
   const [show, setShow] = React.useState(false);
   const navigate = useNavigate();
+  const showToast = useToastHandler();
 
   const handleLogin = async () => {
 
@@ -42,7 +43,7 @@ export const Login = ():React.JSX.Element => {
       // 로그인 성공 후 다른 페이지로 리디렉션할 수 있습니다.
       navigate('/');
     } catch (err: any) {
-      alert("로그인에 실패하였습니다.");
+      showToast('로그인 실패', '로그인에 실패하였습니다.', 'error');
     }
   };
 
@@ -136,9 +137,7 @@ export const Login = ():React.JSX.Element => {
             </ChakraLink>
           </Flex>
         </Flex>
-
       </Flex>
     </Flex>
-
   )
 }
