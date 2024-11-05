@@ -17,9 +17,6 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom'
 import { FaCloudArrowUp, FaTrashCan } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto, MdOutlineFileUpload } from "react-icons/md";
-import { FiUpload } from "react-icons/fi";
-import { HiHashtag } from 'react-icons/hi';
-import { TbArrowBackUp } from "react-icons/tb";
 import React, { useEffect, useState } from 'react'
 import { Image } from '@types';
 import { FolderComponent } from '../components/FolderComponent';
@@ -50,48 +47,12 @@ export function MainPage(): React.ReactElement {
   const handleUpload = () => {
     uploadToast()
   }
-  // 테스트용 컴포넌트
-  // const testComponent = (): React.ReactElement =>
-  //   (
-  //     <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
-  //       <ChakraImage width='200px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
-  //       <Text fontSize="1.2rem">
-  //         대충 파일이름.jpg
-  //       </Text>
-  //     </Box>
-  //     )
-
-  const img1: Image = {
-    id: "ss",
-    name: "태그1 이미지.jpg",
-    src: "https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200",
-    tags: ["태그1", "태그2", "태그3"]
-  };
-  const img2: Image = {
-    id: "dd",
-    name: "태그2 이미지.jpg",
-    src: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/1200px-Cat_August_2010-4.jpg",
-    tags: ["태그1", "태그2", "태그3"]
-  };
-
-  // 폴더 이름 배열
-  const folders = ["폴더1", "폴더2", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3", "폴더3"];
 
   useEffect(() => {
     // 초기 폴더 및 이미지 설정
-    setSearchResult([img1, img1, img1, img1, img1]);
-    setFolderList(folders);
   }, []);
 
   const updateResult = (folder: string) => {
-    // 폴더에 따라 다른 이미지 배열 설정
-    if (folder === "폴더1") {
-      setFolderList([]);
-      setSearchResult([img1, img1, img1, img1, img1]);
-    } else {
-      setFolderList([]);
-      setSearchResult([img2, img2, img2, img2, img2]);
-    }
   };
 
   return (
@@ -122,7 +83,7 @@ export function MainPage(): React.ReactElement {
               }
               {
                 searchResult.map((image) => (
-                  <ImageComponent key={image.id} id={image.id} name={image.name} src={image.src} tags={image.tags} />
+                  <ImageComponent name={image.name} src={image.src} tags={image.tags} />
                 ))
               }
             </SimpleGrid>
