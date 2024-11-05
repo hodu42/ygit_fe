@@ -22,25 +22,26 @@ import { HiHashtag } from 'react-icons/hi';
 import { TbArrowBackUp } from "react-icons/tb";
 import React, { useEffect, useState } from 'react'
 import { Image } from '@types';
-import { FolderComponent } from './FolderComponent';
-import { ImageComponent } from './ImageComponent';
-import { SearchBox } from './SearchBox';
-import { MainLogo } from './MainLogo';
-import { MyPageMenu } from './MyPageMenu';
-import { UploadSuccessToast } from './UploadSuccessToast'
+import { FolderComponent } from '../components/FolderComponent';
+import { ImageComponent } from '../components/ImageComponent';
+import { SearchBox } from '../components/SearchBox';
+import { MainLogo } from '../components/MainLogo';
+import { MyPageMenu } from '../components/MyPageMenu';
+import { UploadSuccessToast } from '../components/UploadSuccessToast'
 import { ImageUploadTab } from '../tabs/ImageUploadTab'
 import { MyLearningTab } from '../tabs/MyLearningTab'
+import { Logout } from '../components/Logout'
 
-export function IconMenus(): React.ReactElement {
+export function MainPage(): React.ReactElement {
 
   const [folderList, setFolderList] = React.useState<string[]>([]);
   const [searchResult, setSearchResult] = React.useState<Image[]>([]);
   const navigate = useNavigate();
   const { uploadToast } = UploadSuccessToast();
 
+  // 로그인 안되어있으면 로그인 페이지로 자동 리다이렉션
   useEffect(() => {
-      const token = localStorage.getItem('token');
-      console.log(token);
+      const token = sessionStorage.getItem('token');
       if (!token) {
         navigate('/login');
       }
@@ -102,6 +103,7 @@ export function IconMenus(): React.ReactElement {
           <Tab _selected={{ color: '#0dcbe4' }}><Icon as={AiFillPicture} boxSize={85} /></Tab>
           <Tab _selected={{ color: '#0dcbe4' }}><Icon as={MdAddAPhoto} boxSize={85} /></Tab>
         </TabList>
+        <Logout/>
         <MyPageMenu />
       </Box>
 
