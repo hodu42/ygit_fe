@@ -11,12 +11,35 @@ import {
 } from '@chakra-ui/react'
 import { HiHashtag } from 'react-icons/hi'
 import React from 'react'
-import { Link as ReactRouterLink } from 'react-router-dom'
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom'
+import api from '../utils/api'
 
-export const Login = () => {
+export const Login = ():React.JSX.Element => {
   const [id, setId] = React.useState('');
   const [pw, setPw] = React.useState('');
   const [show, setShow] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+
+    try {
+      const response = await api.post('/token', new URLSearchParams({
+        username: id,
+        password: pw,
+      }));
+
+      // eslint-disable-next-line camelcase
+      const { access_token } = response.data;
+
+      // 토큰을 로컬 스토리지에 저장하거나 상태 관리
+      localStorage.setItem('token', access_token);
+
+      // 로그인 성공 후 다른 페이지로 리디렉션할 수 있습니다.
+      navigate('/');
+    } catch (err: any) {
+      // 오류 처리: 서버로부터 받은 오류 메시지 또는 기본 메시지 표시
+    }
+  };
 
   return (
     <Flex bg='#F4F6F9' width='100%' height='100vh' alignItems='center'>
@@ -41,6 +64,7 @@ export const Login = () => {
               focusBorderColor="#0dcbe4"
               value={id}
               onChange={(e) => setId(e.target.value)}
+              onSubmit={handleLogin}
             />
           </Flex>
           <Flex mt='4rem' flexDirection="column" alignItems='center'>
@@ -88,6 +112,7 @@ export const Login = () => {
               fontSize="1.8rem"
               height='50px'
               _hover={{backgroundColor: '#0DA3E4'}}
+              onClick={handleLogin}
               sx={{
                 padding: '30px 80px'
               }}>

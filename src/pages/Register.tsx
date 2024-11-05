@@ -5,11 +5,12 @@ import {Link as ReactRouterLink } from "react-router-dom";
 import {TbArrowBackUp} from "react-icons/tb";
 import {BackButton} from "../components/BackButton";
 
-export const Register = () => {
+export const Register = ():React.JSX.Element => {
     const [id, setId] = React.useState('');
     const [pw, setPw] = React.useState('');
     const [valid, setValid] = React.useState(false);
     const [show, setShow] = React.useState(false);
+
     return (
         <Flex bg='#F4F6F9' width='100%' height='100vh' alignItems='center'>
             <Flex position='relative' width='55rem' height='45rem' flexDirection="column" bg="white" margin='0 auto' borderRadius='10px' justifyContent='center' alignItems='center'>

@@ -5,7 +5,7 @@ import { FaTrashCan } from 'react-icons/fa6'
 import { HiHashtag } from 'react-icons/hi'
 import React from 'react'
 
-export const DetailedImageTab = () => {
+export const DetailedImageTab = ():React.JSX.Element => {
 
   const searchTagList = ['태그1', '태그2', '태그3', '태그4']
 

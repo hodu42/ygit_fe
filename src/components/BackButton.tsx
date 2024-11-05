@@ -3,7 +3,7 @@ import {Icon} from "@chakra-ui/react";
 import {TbArrowBackUp} from "react-icons/tb";
 import React from "react";
 
-export const BackButton = () => {
+export const BackButton:React.FC = () => {
     const navigate = useNavigate();
     return (
             <Icon

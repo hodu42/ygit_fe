@@ -1,8 +1,9 @@
 import { Icon, Text, Link as ChakraLink } from '@chakra-ui/react'
 import { Link as ReactRouterLink } from 'react-router-dom'
 import { HiHashtag } from 'react-icons/hi';
+import React from 'react'
 
-export function MainLogo() {
+export function MainLogo():React.ReactElement {
   return (
     <ChakraLink
       _hover={{ textDecoration: "none" }}

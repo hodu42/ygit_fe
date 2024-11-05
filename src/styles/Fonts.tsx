@@ -1,6 +1,8 @@
 import {Global} from '@emotion/react'
+import React from 'react'
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
 
-export const Fonts = () => (
+export const Fonts = ():EmotionJSX.Element => (
   <Global
     styles={`
       @font-face {

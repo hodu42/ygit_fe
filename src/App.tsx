@@ -6,7 +6,7 @@ import { Login } from './pages/Login'
 import {Register} from "./pages/Register";
 import {MyPage} from "./pages/MyPage";
 
-function App() {
+function App():React.JSX.Element {
   return (
     <BrowserRouter>
       <Routes>

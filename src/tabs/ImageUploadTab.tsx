@@ -11,7 +11,7 @@ import {
   WrapItem, Tag, TagLeftIcon, TagLabel
 } from '@chakra-ui/react'
 import { FiUpload } from 'react-icons/fi'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link as ReactRouterLink } from 'react-router-dom'
 import { TbArrowBackUp } from 'react-icons/tb'
 import { Image } from '@types'
@@ -20,17 +20,19 @@ import { HiHashtag } from 'react-icons/hi'
 import { BackButton } from '../components/BackButton'
 
 // 파일 업로드 화면 컴포넌트
-export function ImageUploadTab() {
+export function ImageUploadTab():React.JSX.Element {
+  /* eslint-disable no-console */
 
-  const testComponent = (): React.ReactElement =>
-    (
-      <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
-        <ChakraImage width='200px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
-        <Text fontSize="1.2rem">
-          대충 파일이름.jpg
-        </Text>
-      </Box>
-    )
+  // 테스트용 컴포넌트
+  // const testComponent = (): React.ReactElement =>
+  //   (
+  //     <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
+  //       <ChakraImage width='200px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
+  //       <Text fontSize="1.2rem">
+  //         대충 파일이름.jpg
+  //       </Text>
+  //     </Box>
+  //   )
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [img, setImg] = useState<Image | null>(null);
@@ -58,6 +60,7 @@ export function ImageUploadTab() {
             id: '',
             tags: ['태그1', '태그2', '태그3', '태그4'] // 필요할 경우 태그 설정
           });
+          console.log(reader.result);
         }
       };
     }

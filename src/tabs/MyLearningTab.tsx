@@ -2,7 +2,7 @@ import { Box, Button, Flex, Icon, Text, Image, Select, Input } from '@chakra-ui/
 import { FiUpload } from 'react-icons/fi'
 import React, { useState } from 'react'
 
-export const MyLearningTab = () => {
+export const MyLearningTab = ():React.JSX.Element => {
   const testComponent = (): React.ReactElement =>
     (
       <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly"

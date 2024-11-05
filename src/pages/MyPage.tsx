@@ -3,12 +3,13 @@ import {Box, Button, Flex, Icon, Input, InputGroup, InputRightElement, Select, T
 import {HiHashtag} from "react-icons/hi";
 import {BackButton} from "../components/BackButton";
 
-export const MyPage = () => {
+export const MyPage = ():React.JSX.Element => {
     const [id, setId] = React.useState('hodu42');
     const [pw, setPw] = React.useState('');
     const [valid, setValid] = React.useState(false);
     const [show, setShow] = React.useState(false);
     const modelList = ['모델1', '모델2', '모델3'];
+
     return (
         <Flex bg='#F4F6F9' width='100%' height='100vh' alignItems='center'>
             <Flex position='relative' width='55rem' height='45rem' flexDirection="column" bg="white" margin='0 auto' borderRadius='10px' justifyContent='center' alignItems='center'>

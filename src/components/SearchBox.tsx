@@ -7,7 +7,7 @@ import {
 import { IoSearchSharp } from "react-icons/io5";
 import React, { useEffect } from 'react'
 
-export function SearchBox() {
+export function SearchBox():React.ReactElement {
   const [searchKeyword, setSearchKeyword] = React.useState<string>("");
   const [searchTagList, setSearchTagList] = React.useState<string[]>([]);
   const [modelList, setModelList] = React.useState<string[]>([]);

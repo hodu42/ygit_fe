@@ -1,6 +1,6 @@
-import { useToast } from '@chakra-ui/react'
+import { ToastMethods, useToast } from '@chakra-ui/react'
 
-export function UploadSuccessToast() {
+export function UploadSuccessToast():{ uploadToast: () => void } {
   const toast = useToast()
 
   const uploadToast = () => {

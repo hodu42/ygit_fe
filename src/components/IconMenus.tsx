@@ -13,7 +13,7 @@ import {
   Link as ChakraLink,
   Image as ChakraImage, Flex, Alert, AlertIcon, WrapItem, Tag, TagLabel, TagCloseButton, Wrap, TagLeftIcon
 } from '@chakra-ui/react'
-import { Link as ReactRouterLink } from 'react-router-dom'
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom'
 import { FaCloudArrowUp, FaTrashCan } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto, MdOutlineFileUpload } from "react-icons/md";
@@ -35,22 +35,30 @@ export function IconMenus(): React.ReactElement {
 
   const [folderList, setFolderList] = React.useState<string[]>([]);
   const [searchResult, setSearchResult] = React.useState<Image[]>([]);
-
+  const navigate = useNavigate();
   const { uploadToast } = UploadSuccessToast();
+
+  useEffect(() => {
+      const token = localStorage.getItem('token');
+      console.log(token);
+      if (!token) {
+        navigate('/login');
+      }
+  }, []);
 
   const handleUpload = () => {
     uploadToast()
   }
-
-  const testComponent = (): React.ReactElement =>
-    (
-      <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
-        <ChakraImage width='200px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
-        <Text fontSize="1.2rem">
-          대충 파일이름.jpg
-        </Text>
-      </Box>
-      )
+  // 테스트용 컴포넌트
+  // const testComponent = (): React.ReactElement =>
+  //   (
+  //     <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
+  //       <ChakraImage width='200px' objectFit="contain" src='https://static.scientificamerican.com/sciam/cache/file/2AE14CDD-1265-470C-9B15F49024186C10_source.jpg?w=1200'/>
+  //       <Text fontSize="1.2rem">
+  //         대충 파일이름.jpg
+  //       </Text>
+  //     </Box>
+  //     )
 
   const img1: Image = {
     id: "ss",

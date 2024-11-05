@@ -13,6 +13,7 @@
   "rules": {
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
     "no-var": "error",
+    "no-param-reassign": 0,
     "no-multiple-empty-lines": "error",
     "no-console": ["error", { "allow": ["warn", "error", "info"] }],
     "no-nested-ternary": "off",

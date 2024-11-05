@@ -7,7 +7,7 @@ interface FolderComponentProps {
   onClick: () => void;
 }
 
-export function FolderComponent({ folderName, onClick}: FolderComponentProps) {
+export function FolderComponent({ folderName, onClick}: FolderComponentProps):React.ReactElement {
   return (
     <ChakraLink onClick={onClick}>
       <Box width={200} display="flex" justifyContent='center' alignItems='center' _hover={{
