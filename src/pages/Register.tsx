@@ -4,12 +4,14 @@ import {HiHashtag} from "react-icons/hi";
 import {BackButton} from "../components/BackButton";
 import axios, { AxiosResponse } from 'axios'
 import { BASE_URL } from '../config/Config'
+import { useNavigate } from 'react-router-dom'
 
 export const Register = (): React.JSX.Element => {
   const [id, setId] = React.useState<string>('')
   const [pw, setPw] = React.useState<string>('')
   const [valid, setValid] = React.useState<boolean>(false)
   const [show, setShow] = React.useState<boolean>(false)
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     let response: AxiosResponse<any, any>;
@@ -25,6 +27,7 @@ export const Register = (): React.JSX.Element => {
       sessionStorage.setItem('token', access_token)
 
       // 로그인 성공 후 다른 페이지로 리디렉션할 수 있습니다.
+      navigate('/');
     } catch (err: any) {
         alert("잘못된 입력값입니다.");
     }

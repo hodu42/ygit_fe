@@ -14,7 +14,7 @@ import { FaCloudArrowUp } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto } from "react-icons/md";
 import React, { useEffect } from 'react'
-import { Image } from '@types';
+import { Image, ImageResult } from '@types';
 import { FolderComponent } from '../components/FolderComponent';
 import { ImageComponent } from '../components/ImageComponent';
 import { SearchBox } from '../components/SearchBox';
@@ -23,27 +23,25 @@ import { MyPageMenu } from '../components/MyPageMenu';
 import { ImageUploadTab } from '../tabs/ImageUploadTab'
 import { MyLearningTab } from '../tabs/MyLearningTab'
 import { Logout } from '../components/Logout'
+import { BASE_URL } from '../config/Config'
+import axios from 'axios'
 
 export function MainPage(): React.ReactElement {
-
-  const [folderList, setFolderList] = React.useState<string[]>([]);
-  const [searchResult, setSearchResult] = React.useState<Image[]>([]);
+  const [searchKeyword, setSearchKeyword] = React.useState<string>("");
+  const [searchResult, setSearchResult] = React.useState<ImageResult[]>([]);
   const navigate = useNavigate();
 
   // 로그인 안되어있으면 로그인 페이지로 자동 리다이렉션
-  useEffect(() => {
-      const token = sessionStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-      }
-  }, []);
+  const checkToken = () => {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }
 
   useEffect(() => {
-    // 초기 폴더 및 이미지 설정
+    checkToken();
   }, []);
-
-  const updateResult = (folder: string) => {
-  };
 
   return (
     <Tabs isLazy align="center" defaultIndex={1} variant="unstyled" overflow='hidden'>
@@ -64,16 +62,17 @@ export function MainPage(): React.ReactElement {
         </TabPanel>
         <TabPanel overflowY='auto' height='87vh'>
           <Flex width='80%' flexDirection='column'>
-            <SearchBox />
+            <SearchBox searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchResult={searchResult} setSearchResult={setSearchResult} />
             <SimpleGrid justifyItems='center' columns={6} spacingY={8} mt={4}>
-              {
-                folderList.map((folder) => (
-                  <FolderComponent key={folder} onClick={() => updateResult(folder)} folderName={folder} />
-                ))
-              }
+              {/* 폴더 리스트 보여주는 코드 */}
+              {/*{*/}
+              {/*  folderList.map((folder) => (*/}
+              {/*    <FolderComponent key={folder} onClick={() => updateResult(folder)} folderName={folder} />*/}
+              {/*  ))*/}
+              {/*}*/}
               {
                 searchResult.map((image) => (
-                  <ImageComponent name={image.name} src={image.src} tags={image.tags} />
+                  <ImageComponent name={image.name} image={image.image}/>
                 ))
               }
             </SimpleGrid>

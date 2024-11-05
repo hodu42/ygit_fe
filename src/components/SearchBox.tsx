@@ -2,17 +2,27 @@ import {
   Icon, Input, InputGroup, InputLeftElement,
   Tag,
   TagLabel,
-  TagCloseButton, Wrap, Select, Box, Text, WrapItem
+  TagCloseButton, Wrap, Select, Box, Text, WrapItem, Button
 } from '@chakra-ui/react'
 import { IoSearchSharp } from "react-icons/io5";
 import React, { useEffect } from 'react'
+import { Image, ImageResult, ImageView, ResultImgIdx } from '@types'
+import { BASE_URL } from '../config/Config'
+import axios from 'axios'
 
-export function SearchBox():React.ReactElement {
-  const [searchKeyword, setSearchKeyword] = React.useState<string>("");
+type SearchBoxProps = {
+  searchKeyword: string;
+  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
+  searchResult: ImageResult[];
+  setSearchResult: React.Dispatch<React.SetStateAction<ImageResult[]>>;
+}
+
+export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKeyword, searchResult, setSearchResult}) => {
   const [searchTagList, setSearchTagList] = React.useState<string[]>([]);
   const [modelList, setModelList] = React.useState<string[]>([]);
 
   useEffect( () => { // 서버로 부터 받아오는 코드
+    // 서버로부터 모델 리스트를 받아오는 코드
     setModelList([`COCO`, 'Object 365', '나만의 모델']);
   }, []);
 
@@ -23,6 +33,55 @@ export function SearchBox():React.ReactElement {
     }
   };
 
+  const handleSearch = async () => {
+    try {
+      // 1. 태그로 검색하여 이미지 정보 가져오기
+      const searchResponse = await axios.post<ResultImgIdx[]>(`${BASE_URL}/search-by-tags`, searchTagList, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
+      });
+
+      // 2. 이미지 데이터를 저장할 배열
+      const imgList: ImageResult[] = [];
+
+      // 3. 각 이미지에 대해 데이터 가져오기
+      const promises = searchResponse.data.map(async (result) => {
+        try {
+          const imageResponse = await axios.get(`${BASE_URL}/images/${result.id}`, {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`
+            },
+            responseType: 'arraybuffer'  // FileResponse를 처리하기 위해 arraybuffer로 받음
+          });
+
+          // arraybuffer를 Blob으로 변환하고 URL 생성
+          const blob = new Blob([imageResponse.data]);
+          const imageUrl = URL.createObjectURL(blob);
+
+          imgList.push({
+            name: result.name,
+            image: imageUrl,
+          });
+        } catch (error) {
+          console.error(`Failed to fetch image ${result.id}:`, error);
+        }
+      });
+
+      // 4. 모든 이미지 요청이 완료될 때까지 기다림
+      await Promise.all(promises);
+
+      // 5. 상태 업데이트
+      setSearchResult(imgList);
+
+      return imgList;
+    } catch (error) {
+      console.error('이미지 검색 중 오류 발생:', error);
+      throw error;
+    }
+  };
+
+
   const removeTag = (tagToRemove: string) => {
     setSearchTagList(prevTags => prevTags.filter(tag => tag !== tagToRemove));
   };
@@ -30,11 +89,10 @@ export function SearchBox():React.ReactElement {
   return (
     <Box mt={30}>
       <Box display="flex" justifyContent='space-between'>
-        <InputGroup>
+        <InputGroup alignItems='center'>
           <InputLeftElement width="5%" height="60px" pointerEvents="none">
             <Icon as={IoSearchSharp} boxSize="30px" color="#0dcbe4" />
           </InputLeftElement>
-
           <Input
             bg='#FFF'
             borderColor='transparent'
@@ -49,7 +107,23 @@ export function SearchBox():React.ReactElement {
             onChange={(e) => setSearchKeyword(e.target.value)}
             onKeyDown={handleKeyPress}
           />
+          <Button bg='#0DCBE4'
+                  color='white'
+                  borderColor='transparent'
+                  fontSize="1.4rem"
+                  fontWeight={700}
+                  _hover={{ backgroundColor: '#0DA3E4' }}
+                  type='button'
+                  sx={{
+                    padding: '27px 30px',
+                    marginLeft: '30px'
+                  }}
+                  onClick={handleSearch}
+          >
+            검색
+          </Button>
         </InputGroup>
+
         <Box width='40rem' display="flex" justifyContent='space-between' alignItems="center">
           <Text fontSize='1.6rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>사용할 모델</Text>
           <Select

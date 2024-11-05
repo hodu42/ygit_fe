@@ -4,4 +4,16 @@ declare module "@types" {
     src: string;
     tags: string[];
   };
+  type ImageView = {
+    name: string;
+    image: Blob;
+  }
+  type ResultImgIdx = {
+    id: string;
+    name: string;
+  }
+  type ImageResult = {
+    name: string;
+    image: string;
+  }
 }
