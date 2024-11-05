@@ -2,22 +2,22 @@ import {
   Box,
   Button,
   Icon,
-  Input,
   Text,
   Link as ChakraLink,
   Image as ChakraImage,
-  Flex,
   Wrap,
-  WrapItem, Tag, TagLeftIcon, TagLabel
+  WrapItem,
+  Tag,
+  TagLeftIcon,
+  TagLabel,
+  useToast
 } from '@chakra-ui/react'
 import { FiUpload } from 'react-icons/fi'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link as ReactRouterLink } from 'react-router-dom'
-import { TbArrowBackUp } from 'react-icons/tb'
 import { Image } from '@types'
 import { FaTrashCan } from 'react-icons/fa6'
 import { HiHashtag } from 'react-icons/hi'
-import { BackButton } from '../components/BackButton'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
 
@@ -26,6 +26,18 @@ export function ImageUploadTab():React.JSX.Element {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [img, setImg] = useState<Image | null>(null);
+  const toast = useToast();
+
+  // Toast 알림을 표시하는 함수
+  const showToast = (title: string, description: string, status: 'success' | 'error') => {
+    toast({
+      title: title,
+      description: description,
+      status: status,
+      duration: 6000,
+      isClosable: true,
+    });
+  };
 
   // 파일을 업로드 하는 코드
   const handleImageUpload = async (file: Blob) => {
@@ -36,10 +48,10 @@ export function ImageUploadTab():React.JSX.Element {
     try {
       const response = await axios.post(`${BASE_URL}/upload-image`, formData, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`, // 인증 토큰 포함
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`, // 인증 토큰 포함
+          'Content-Type': 'multipart/form-data'
         },
       })
-      return response.data;
       // 서버에서 반환된 데이터 처리
     } catch (error) {
       alert('파일 업로드에 실패하였습니다.')
@@ -56,9 +68,11 @@ export function ImageUploadTab():React.JSX.Element {
       const response = await axios.post(`${BASE_URL}/extract-tags`, formData, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`, // 인증 토큰 포함
+          'Content-Type': 'multipart/form-data',
         },
       })
-      return response.data;
+      const data: string[] = response.data
+      return data
       // 서버에서 반환된 데이터 처리
     } catch (error) {
       alert('태그 추출에 실패하였습니다.')
@@ -66,7 +80,7 @@ export function ImageUploadTab():React.JSX.Element {
   }
 
   // 이미지 드롭했을 때 발생하는 이벤트 코드
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     // img가 존재할 경우 드롭 이벤트를 무시
@@ -75,24 +89,27 @@ export function ImageUploadTab():React.JSX.Element {
 
     if (files && files.length > 0) {
       const file = files[0];
-      const img = handleImageUpload(file);
-      const tags =
-      const reader = new FileReader();
+      try {
+        handleImageUpload(file);
+        const tags = await getTagsFromImg(file);
+        const reader = new FileReader();
 
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        // reader.result가 string일 때만 상태 업데이트
-        if (typeof reader.result === 'string') {
-          // 통신으로 가져온 이미지객체를 setImg하기
-          setImg({
-            name: file.name,
-            src: reader.result,
-            id: '',
-            tags: ['태그1', '태그2', '태그3', '태그4'] // 필요할 경우 태그 설정
-          });
-          console.log(reader.result);
-        }
-      };
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          // reader.result가 string일 때만 상태 업데이트
+          if (typeof reader.result === 'string' && tags) {
+            // 통신으로 가져온 이미지객체를 setImg하기
+            setImg({
+              name: file.name,
+              src: reader.result,
+              tags: tags, // 필요할 경우 태그 설정
+            });
+            showToast('업로드 완료', '이미지 업로드에 성공하였습니다.', 'success');
+          }
+        };
+      } catch (any) {
+        showToast('업로드 실패', '이미지 업로드에 실패하였습니다.', 'error');
+      }
     }
   }
 
@@ -106,34 +123,36 @@ export function ImageUploadTab():React.JSX.Element {
   };
 
   // 버튼으로 이미지 업로드 했을 때 실행하는 코드
-  const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const {files} = e.target;
 
     if (files && files.length > 0) {
       const file = files[0];
 
       try {
-        const reader = new FileReader()
-        const result = handleImageUpload(file);
+        handleImageUpload(file);
+        const tags = await getTagsFromImg(file);
+        const reader = new FileReader();
 
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(file);
         reader.onloadend = () => {
           // reader.result가 string일 때만 상태 업데이트
-          if (typeof reader.result === 'string') {
-            // 통신으로 가져온 이미지객체를 setImg하기 (현재는 임시)
+          if (typeof reader.result === 'string' && tags) {
+            // 통신으로 가져온 이미지객체를 setImg하기
             setImg({
-              id: result.id,
-              name: result.name,
-              src: reader.result, // Data URL
-              tags: ['새'],
-            })
+              name: file.name,
+              src: reader.result,
+              tags: tags, // 필요할 경우 태그 설정
+            });
+            showToast('업로드 완료', '이미지 업로드에 성공하였습니다.', 'success');
           }
-        }
+        };
       } catch(any) {
-        alert('이미지 업로드 실패');
+        showToast('업로드 실패', '이미지 업로드에 실패하였습니다.', 'error');
       }
     }
-  }, []);
+  }
+
   return (
     <Box>
       {/* 이미지가 없으면 업로드화면 / 있으면 이미지 보여줌 */}
