@@ -6,7 +6,7 @@ import {
   Text,
   Link as ChakraLink,
   InputGroup,
-  InputRightElement
+  InputRightElement, useBreakpointValue
 } from '@chakra-ui/react'
 import { HiHashtag } from 'react-icons/hi'
 import React from 'react'
@@ -22,6 +22,7 @@ export const Login = ():React.JSX.Element => {
   const [show, setShow] = React.useState(false);
   const navigate = useNavigate();
   const showToast = useToastHandler();
+  const isPhone = useBreakpointValue({base: true, xl: false})
 
   const handleLogin = async () => {
 
@@ -48,13 +49,13 @@ export const Login = ():React.JSX.Element => {
   };
 
   return (
-    <Flex bg='#F4F6F9' width='100%' height='100vh' alignItems='center'>
-      <Flex width='55rem' height='45rem' flexDirection="column" bg="white" margin='0 auto' borderRadius='10px' justifyContent='center' alignItems='center'>
-        <Flex flexDirection="column" width='80%'>
-          <Flex alignItems='center' justifyContent='center' pb='3rem'>
-            <Icon as={HiHashtag} boxSize={75} color="#0DCBE4" />
-            <Text fontSize="2.5rem" fontWeight={900}>LOGIN</Text>
-          </Flex>
+    <Flex width='100%' height='100vh' alignItems='center'>
+      <Flex width={{base: '100%', lg: '45.83%'}} height={{base: '100%', lg: '75.55%'}} flexDirection="column" bg="white" borderRadius='10px' justifyContent='space-evenly' alignItems='center' margin={{base: '0', lg: '0 auto'}}>
+        <Flex alignItems='center' justifyContent='center' mt={{base: '2rem'}}>
+          <Icon as={HiHashtag} boxSize={{ base: '50px' }} color="#0DCBE4" />
+          <Text fontSize={{base: '2.5rem'}} fontWeight={900} pr='20px'>LOGIN</Text>
+        </Flex>
+        <Flex flexDirection="column" width='80%' height='88.49%' justifyContent='space-evenly'>
           <Flex flexDirection="column" alignItems='center'>
             <Text pl='2rem' width='80%' ml='2rem' fontSize='1.6rem' fontFamily='Pretendard' fontWeight='600'>ID</Text>
             <Input
@@ -64,8 +65,8 @@ export const Login = ():React.JSX.Element => {
               mt='1rem'
               width='80%'
               height="50px"
-              placeholder="아이디를 입력하세요."
-              fontSize="1.3rem"
+              placeholder={isPhone ? '' : "아이디를 입력하세요."}
+              fontSize={{base: '1.3rem'}}
               fontWeight={600}
               focusBorderColor="#0dcbe4"
               value={id}
@@ -84,18 +85,18 @@ export const Login = ():React.JSX.Element => {
                 pr='4.7rem'
                 width='100%'
                 height="50px"
-                placeholder="비밀번호를 입력하세요."
-                fontSize="1.3rem"
+                placeholder={isPhone ? '' : "비밀번호를 입력하세요."}
+                fontSize={{base:  '1.3rem'}}
                 fontWeight={600}
                 focusBorderColor="#0dcbe4"
                 value={pw}
                 onChange={(e) => setPw(e.target.value)}
               />
               <InputRightElement
+                display='flex'
                 width='4.5rem'
                 height='50px'
                 position='absolute'
-                display='flex'
                 alignItems='center'
               >
                 <Button
@@ -110,13 +111,14 @@ export const Login = ():React.JSX.Element => {
               </InputRightElement>
             </InputGroup>
           </Flex>
-          <Flex position='relative' justifyContent='center' alignItems='center' pt='5rem'>
+          <Flex position='relative' flexDirection='column' height={{base: '230px',}} justifyContent='space-evenly' alignItems='center'>
             <Button
               bg='#0DCBE4'
               color='white'
               borderColor='transparent'
               fontSize="1.8rem"
-              height='50px'
+              maxHeight='50px'
+              height={{base: '9.6%'}}
               _hover={{backgroundColor: '#0DA3E4'}}
               onClick={handleLogin}
               sx={{
@@ -126,8 +128,6 @@ export const Login = ():React.JSX.Element => {
             </Button>
             <ChakraLink
               _hover={{ textDecoration: "underline" }}
-              position='absolute'
-              right='60px'
               as={ReactRouterLink}
               to="/register"
               display="inline-flex"
