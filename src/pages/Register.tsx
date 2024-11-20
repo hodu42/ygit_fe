@@ -5,6 +5,7 @@ import {BackButton} from "../components/BackButton";
 import axios, { AxiosResponse } from 'axios'
 import { BASE_URL } from '../config/Config'
 import { useNavigate } from 'react-router-dom'
+import useToastHandler from '../components/useToastHandler'
 
 export const Register = (): React.JSX.Element => {
   const [id, setId] = React.useState<string>('')
@@ -12,6 +13,7 @@ export const Register = (): React.JSX.Element => {
   const [valid, setValid] = React.useState<boolean>(false)
   const [show, setShow] = React.useState<boolean>(false)
   const navigate = useNavigate();
+  const showToast = useToastHandler();
   const isPhone = useBreakpointValue({base: true, xl: false})
 
   const handleRegister = async () => {
@@ -30,7 +32,7 @@ export const Register = (): React.JSX.Element => {
       // 로그인 성공 후 다른 페이지로 리디렉션할 수 있습니다.
       navigate('/');
     } catch (err: any) {
-        alert("잘못된 입력값입니다.");
+      showToast('회원가입 실패', '잘못된 입력값입니다.', 'error');
     }
   }
 
