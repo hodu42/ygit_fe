@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <ChakraProvider>
       <Fonts/>
-      <Box minHeight='100vh' bg='#F4F6F9'>
+      <Box minHeight='100vh' bg={{base: 'white', lg: '#F4F6F9'}}>
         <App />
       </Box>
     </ChakraProvider>

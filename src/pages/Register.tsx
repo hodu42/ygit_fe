@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Flex, Icon, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { Button, Flex, Icon, Input, InputGroup, InputRightElement, Text, useBreakpointValue } from '@chakra-ui/react'
 import {HiHashtag} from "react-icons/hi";
 import {BackButton} from "../components/BackButton";
 import axios, { AxiosResponse } from 'axios'
@@ -12,6 +12,7 @@ export const Register = (): React.JSX.Element => {
   const [valid, setValid] = React.useState<boolean>(false)
   const [show, setShow] = React.useState<boolean>(false)
   const navigate = useNavigate();
+  const isPhone = useBreakpointValue({base: true, xl: false})
 
   const handleRegister = async () => {
     let response: AxiosResponse<any, any>;
@@ -34,23 +35,23 @@ export const Register = (): React.JSX.Element => {
   }
 
   return (
-    <Flex bg="#F4F6F9" width="100%" height="100vh" alignItems="center">
+    <Flex width="100%" height="100vh" alignItems="center">
       <Flex
         position="relative"
         width="55rem"
         height="45rem"
         flexDirection="column"
         bg="white"
-        margin="0 auto"
+        margin={{base: '0',  lg: '0 auto'}}
         borderRadius="10px"
-        justifyContent="center"
+        justifyContent="space-evenly"
         alignItems="center"
       >
         <BackButton />
         <Flex flexDirection="column" width="80%">
           <Flex alignItems="center" justifyContent="center" pb="3rem">
-            <Icon as={HiHashtag} boxSize={75} color="#0DCBE4" />
-            <Text fontSize="2.5rem" fontWeight={900}>
+            <Icon as={HiHashtag} boxSize={{base: '50px'}} color="#0DCBE4" />
+            <Text fontSize={{base: '2.5rem'}} fontWeight={900}>
               Register
             </Text>
           </Flex>
@@ -67,7 +68,7 @@ export const Register = (): React.JSX.Element => {
                 pr="4.7rem"
                 width="100%"
                 height="50px"
-                placeholder="사용하실 아이디를 입력하세요."
+                placeholder={isPhone ? '' : "사용하실 아이디를 입력하세요."}
                 fontSize="1.3rem"
                 fontWeight={600}
                 focusBorderColor="#0dcbe4"
@@ -101,7 +102,7 @@ export const Register = (): React.JSX.Element => {
                 pr="4.7rem"
                 width="100%"
                 height="50px"
-                placeholder="사용하실 비밀번호를 입력하세요."
+                placeholder={isPhone ? '' : "사용하실 비밀번호를 입력하세요."}
                 fontSize="1.3rem"
                 fontWeight={600}
                 focusBorderColor="#0dcbe4"
