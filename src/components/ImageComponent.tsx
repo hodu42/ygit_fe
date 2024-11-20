@@ -1,9 +1,9 @@
 import { Box, Text, Image, Link as ChakraLink} from '@chakra-ui/react'
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom'
-import { Image as ImageType, ImageView, ImageResult } from "@types"
+import { ResultImageWithoutTags } from "@types"
 
-export function ImageComponent({ name, image }: ImageResult):React.ReactElement {
+export function ImageComponent({ name, image }: ResultImageWithoutTags):React.ReactElement {
 
   // 파일 이름과 확장자 분리
   const parts = name.split('.');

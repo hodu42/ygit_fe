@@ -14,7 +14,7 @@ import { FaCloudArrowUp } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto } from "react-icons/md";
 import React, { useEffect } from 'react'
-import { Image, ImageResult } from '@types';
+import { ResultImageWithoutTags } from '@types';
 import { FolderComponent } from '../components/FolderComponent';
 import { ImageComponent } from '../components/ImageComponent';
 import { SearchBox } from '../components/SearchBox';
@@ -23,12 +23,10 @@ import { MyPageMenu } from '../components/MyPageMenu';
 import { ImageUploadTab } from '../tabs/ImageUploadTab'
 import { MyLearningTab } from '../tabs/MyLearningTab'
 import { Logout } from '../components/Logout'
-import { BASE_URL } from '../config/Config'
-import axios from 'axios'
 
 export function MainPage(): React.ReactElement {
   const [searchKeyword, setSearchKeyword] = React.useState<string>("");
-  const [searchResult, setSearchResult] = React.useState<ImageResult[]>([]);
+  const [searchResult, setSearchResult] = React.useState<ResultImageWithoutTags[]>([]);
   const navigate = useNavigate();
 
   // 로그인 안되어있으면 로그인 페이지로 자동 리다이렉션

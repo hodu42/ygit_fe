@@ -3,10 +3,10 @@ import { Box, Icon, Tag, TagLabel, TagLeftIcon, Text, Wrap, WrapItem, Image as C
 import { FaTrashCan } from 'react-icons/fa6'
 import { HiHashtag } from 'react-icons/hi'
 import React from 'react'
-import { Image } from '@types'
+import { ResultImage } from '@types'
 
 type ImagePreviewProps = {
-  img: Image
+  img: ResultImage
 }
 
 export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
@@ -31,7 +31,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
       </ChakraLink>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
       <Box display="flex" flexDirection="column" justifyContent='center' alignItems='center'>
-        <ChakraImage width='500px' height='300px' objectFit="contain" src={img.src}/>
+        <ChakraImage width='500px' height='300px' objectFit="contain" src={img.image}/>
         <Text mt='7rem' fontSize="1.5rem">
           {img.name}
         </Text>

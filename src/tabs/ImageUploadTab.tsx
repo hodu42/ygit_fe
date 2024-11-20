@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
-import { Image } from '@types'
+import { ResultImage } from '@types'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
 import useToastHandler from '../components/useToastHandler'
@@ -10,7 +10,7 @@ import { ImageUpload } from '../components/ImageUpload'
 // 파일 업로드 화면 컴포넌트
 export function ImageUploadTab():React.JSX.Element {
 
-  const [img, setImg] = useState<Image | null>(null);
+  const [resultImage, setResultImage] = useState<ResultImage | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const showToast = useToastHandler();
 
@@ -57,7 +57,7 @@ export function ImageUploadTab():React.JSX.Element {
     e.preventDefault();
 
     // img가 존재할 경우 드롭 이벤트를 무시
-    if (img) return;
+    if (resultImage) return;
     const {files} = e.dataTransfer;
 
     if (files && files.length > 0) {
@@ -72,9 +72,9 @@ export function ImageUploadTab():React.JSX.Element {
           // reader.result가 string일 때만 상태 업데이트
           if (typeof reader.result === 'string' && tags) {
             // 통신으로 가져온 이미지객체를 setImg하기
-            setImg({
+            setResultImage({
               name: file.name,
-              src: reader.result,
+              image: reader.result,
               tags: tags, // 필요할 경우 태그 설정
             });
             showToast('업로드 완료', '이미지 업로드에 성공하였습니다.', 'success');
@@ -112,9 +112,9 @@ export function ImageUploadTab():React.JSX.Element {
           // reader.result가 string일 때만 상태 업데이트
           if (typeof reader.result === 'string' && tags) {
             // 통신으로 가져온 이미지객체를 setImg하기
-            setImg({
+            setResultImage({
               name: file.name,
-              src: reader.result,
+              image: reader.result,
               tags: tags, // 필요할 경우 태그 설정
             });
             showToast('업로드 완료', '이미지 업로드에 성공하였습니다.', 'success');
@@ -129,8 +129,8 @@ export function ImageUploadTab():React.JSX.Element {
   return (
     <Box>
       {/* 이미지가 없으면 업로드화면 / 있으면 이미지 보여줌 */}
-      {img ?
-        <ImagePreview img={img}/>
+      {resultImage ?
+        <ImagePreview img={resultImage}/>
         :
       <ImageUpload
         onDrop={handleDrop}
