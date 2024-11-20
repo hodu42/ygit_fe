@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider, Container } from '@chakra-ui/react'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Fonts } from './styles/Fonts'
@@ -11,7 +11,9 @@ root.render(
   <React.StrictMode>
     <ChakraProvider>
       <Fonts/>
-      <App />
+      <Box minHeight='100vh' bg='#F4F6F9'>
+        <App />
+      </Box>
     </ChakraProvider>
   </React.StrictMode>,
 );
