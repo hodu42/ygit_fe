@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
-import { ResultImage } from '@types'
+import { ImgIdx, ResultImage } from '@types'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
 import useToastHandler from '../components/useToastHandler'
@@ -27,28 +27,27 @@ export function ImageUploadTab():React.JSX.Element {
           'Content-Type': 'multipart/form-data'
         },
       })
+      return response.data;
       // 서버에서 반환된 데이터 처리
     } catch (error) {
+      showToast('이미지 업로드 실패', '업로드에 실패하였습니다.', 'error');
     }
   }
 
   // 이미지로부터 태그 리스트를 가져오는 코드
-  const getTagsFromImg = async (file: Blob) => {
-    // FormData 객체 생성
-    const formData = new FormData()
-    formData.append('file', file)
+  const getTagsFromImg = async (pictureId: number) => {
 
     try {
-      const response = await axios.post(`${BASE_URL}/extract-tags`, formData, {
+      const response = await axios.post(`${BASE_URL}/extract-tags`, pictureId, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`, // 인증 토큰 포함
           'Content-Type': 'multipart/form-data',
         },
       })
-      const data: string[] = response.data
-      return data
+      return response.data
       // 서버에서 반환된 데이터 처리
     } catch (error) {
+      showToast('태그 추출 실패', '이미지의 태그 추출에 실패하였습니다.', 'error');
     }
   }
 
@@ -63,8 +62,8 @@ export function ImageUploadTab():React.JSX.Element {
     if (files && files.length > 0) {
       const file = files[0];
       try {
-        handleImageUpload(file);
-        const tags = await getTagsFromImg(file);
+        const uploadedImage = await handleImageUpload(file);
+        const tags = await getTagsFromImg(uploadedImage.id);
         const reader = new FileReader();
 
         reader.readAsDataURL(file);
@@ -103,8 +102,8 @@ export function ImageUploadTab():React.JSX.Element {
       const file = files[0];
 
       try {
-        handleImageUpload(file);
-        const tags = await getTagsFromImg(file);
+        const uploadedImage = await handleImageUpload(file);
+        const tags = await getTagsFromImg(uploadedImage.id);
         const reader = new FileReader();
 
         reader.readAsDataURL(file);
