@@ -36,19 +36,16 @@ export function ImageUploadTab():React.JSX.Element {
 
   // 이미지로부터 태그 리스트를 가져오는 코드
   const getTagsFromImg = async (pictureId: number) => {
-    try {
-      console.log('Extracting tags for picture ID:', pictureId);  // pictureId 확인
-      const response = await axios.post(`${BASE_URL}/extract-tags/${pictureId}`, null, {
+    const response = await axios.post(
+      `${BASE_URL}/extract-tags`, 
+      { picture_id: pictureId },
+      {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
         },
-      })
-      console.log('Tags response:', response.data);  // 태그 응답 확인
-      return response.data;
-    } catch (error) {
-      console.error('Tags extraction error:', error);  // 태그 추출 에러 로깅
-      throw error;
-    }
+      }
+    );
+    return response.data;
   }
 
   // 이미지 드롭했을 때 발생하는 이벤트 코드
