@@ -1,19 +1,16 @@
 declare module "@types" {
-  type Image = {
-    name: string;
-    src: string;
-    tags: string[];
-  };
   type ImageView = {
     name: string;
     image: Blob;
   }
-  type ResultImgIdx = {
+  type ImgIdx = {
     id: string;
     name: string;
   }
-  type ImageResult = {
+  type ResultImage = {
     name: string;
     image: string;
+    tags: string[];
   }
+  type ResultImageWithoutTags = Omit<ResultImage, 'tags'>
 }

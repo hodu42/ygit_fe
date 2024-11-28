@@ -6,15 +6,15 @@ import {
 } from '@chakra-ui/react'
 import { IoSearchSharp } from "react-icons/io5";
 import React, { useEffect } from 'react'
-import { Image, ImageResult, ImageView, ResultImgIdx } from '@types'
+import { ResultImageWithoutTags, ImgIdx } from '@types'
 import { BASE_URL } from '../config/Config'
 import axios from 'axios'
 
 type SearchBoxProps = {
   searchKeyword: string;
   setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
-  searchResult: ImageResult[];
-  setSearchResult: React.Dispatch<React.SetStateAction<ImageResult[]>>;
+  searchResult: ResultImageWithoutTags[];
+  setSearchResult: React.Dispatch<React.SetStateAction<ResultImageWithoutTags[]>>;
 }
 
 export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKeyword, searchResult, setSearchResult}) => {
@@ -37,14 +37,14 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
   const handleSearch = async () => {
     try {
       // 1. 태그로 검색하여 이미지 정보 가져오기
-      const searchResponse = await axios.post<ResultImgIdx[]>(`${BASE_URL}/search-by-tags`, searchTagList, {
+      const searchResponse = await axios.post<ImgIdx[]>(`${BASE_URL}/search-by-tags`, searchTagList, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
 
       // 2. 이미지 데이터를 저장할 배열
-      const imgList: ImageResult[] = [];
+      const imgList: ResultImageWithoutTags[] = [];
 
       // 3. 각 이미지에 대해 데이터 가져오기
       const promises = searchResponse.data.map(async (result) => {
@@ -81,7 +81,6 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
       throw error;
     }
   };
-
 
   const removeTag = (tagToRemove: string) => {
     setSearchTagList(prevTags => prevTags.filter(tag => tag !== tagToRemove));
