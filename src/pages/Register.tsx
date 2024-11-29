@@ -52,8 +52,8 @@ export const Register = (): React.JSX.Element => {
         <BackButton />
         <Flex flexDirection="column" width="80%">
           <Flex alignItems="center" justifyContent="center" pb="3rem">
-            <Icon as={HiHashtag} boxSize={{base: '50px'}} color="#0DCBE4" />
-            <Text fontSize={{base: '2.5rem'}} fontWeight={900}>
+            <Icon as={HiHashtag} boxSize={{base: '70px'}} color="#0DCBE4" />
+            <Text fontSize={{base: '3rem'}} fontWeight={900}>
               Register
             </Text>
           </Flex>
@@ -61,35 +61,20 @@ export const Register = (): React.JSX.Element => {
             <Text pl="2rem" width="80%" ml="2rem" fontSize="1.6rem" fontFamily="Pretendard" fontWeight="600">
               ID
             </Text>
-            <InputGroup width="80%" mt="1rem" position="relative">
-              <Input
-                type="text"
-                bg="#f4f6f9"
-                borderColor="transparent"
-                pl="3%"
-                pr="4.7rem"
-                width="100%"
-                height="50px"
-                placeholder={isPhone ? '' : "사용하실 아이디를 입력하세요."}
-                fontSize="1.3rem"
-                fontWeight={600}
-                focusBorderColor="#0dcbe4"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-              />
-              <InputRightElement width="4.5rem" height="50px" position="absolute" display="flex" alignItems="center">
-                <Button
-                  h="40px"
-                  bg={valid ? '#04AA6D' : '#f44336'}
-                  onClick={() => setValid(!valid)}
-                  _hover={{ bg: '<color>' }}
-                  fontSize="1.3rem"
-                  color="white"
-                >
-                  Check
-                </Button>
-              </InputRightElement>
-            </InputGroup>
+            <Input
+              type="text"
+              bg="#f4f6f9"
+              borderColor="transparent"
+              pl="3%"
+              width="80%"
+              height="50px"
+              placeholder={isPhone ? '' : "사용하실 아이디를 입력하세요."}
+              fontSize="1.3rem"
+              fontWeight={600}
+              focusBorderColor="#0dcbe4"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
           </Flex>
           <Flex mt="4rem" flexDirection="column" alignItems="center">
             <Text pl="2rem" width="80%" ml="2rem" fontSize="1.6rem" fontFamily="Pretendard" fontWeight="600">

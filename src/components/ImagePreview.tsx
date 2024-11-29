@@ -13,9 +13,8 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
   return (
     <Box display='flex'
          flexDirection='column'
-         width='80%' height='46rem'
+         width='60%' height='75%'
          borderRadius={5} bg='#FFF'
-         mt={30}
          position='relative'
          justifyContent='center'
          alignItems='center'>
@@ -30,13 +29,13 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
         <Icon as={FaTrashCan} boxSize={70} color='#f43535'/>
       </ChakraLink>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
-      <Box display="flex" flexDirection="column" justifyContent='center' alignItems='center'>
-        <ChakraImage width='500px' height='300px' objectFit="contain" src={img.image}/>
-        <Text mt='7rem' fontSize="1.5rem">
+      <Box display="flex" width='80%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
+        <ChakraImage width='80%' height='60%' objectFit="contain" src={img.image}/>
+        <Text fontSize="1.5rem">
           {img.name}
         </Text>
       </Box>
-      <Wrap spacing={4} mb={5} mt='70px'>
+      <Wrap spacing={4}>
         {img.tags.map((tag) => (
           <WrapItem key={tag}>
             <Tag

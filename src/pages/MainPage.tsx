@@ -42,7 +42,7 @@ export function MainPage(): React.ReactElement {
   }, []);
 
   return (
-    <Tabs isLazy align="center" defaultIndex={1} variant="unstyled" overflow='hidden'>
+    <Tabs isLazy align="center" defaultIndex={1} variant="unstyled" overflow='hidden' height='100vh'>
       <Box position="sticky" top={0} height={120} bg='#FFF' zIndex='10'>
         <MainLogo />
         <TabList display="flex" width={400} height={120} justifyContent="space-between">
@@ -54,14 +54,14 @@ export function MainPage(): React.ReactElement {
         <MyPageMenu />
       </Box>
 
-      <TabPanels bg='#F4F6F9' height='890px'>
-        <TabPanel overflow='hidden'>
+      <TabPanels display='block' bg='#F4F6F9' height='calc(100% - 120px)'>
+        <TabPanel height='100%' padding='0'>
           <ImageUploadTab/>
         </TabPanel>
         <TabPanel overflowY='auto' height='87vh'>
           <Flex width='80%' flexDirection='column'>
             <SearchBox searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchResult={searchResult} setSearchResult={setSearchResult} />
-            <SimpleGrid justifyItems='center' columns={6} spacingY={8} mt={4}>
+            <SimpleGrid justifyItems='center' columns={{ base: 1, sm: 2, md: 4, lg: 5, xl: 6}} spacingY={8}>
               {/* 폴더 리스트 보여주는 코드 */}
               {/*{*/}
               {/*  folderList.map((folder) => (*/}
@@ -76,7 +76,7 @@ export function MainPage(): React.ReactElement {
             </SimpleGrid>
           </Flex>
         </TabPanel>
-        <TabPanel overflow='hidden' height='87vh'>
+        <TabPanel overflow='hidden' height='100%' padding='0'>
           <MyLearningTab/>
         </TabPanel>
       </TabPanels>

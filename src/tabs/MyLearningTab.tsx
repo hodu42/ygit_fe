@@ -27,18 +27,18 @@ export const MyLearningTab = ():React.JSX.Element => {
             padding='0 15%'
             height='80%'
       >
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
-        {/*{testComponent()}*/}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
+        {testComponent()}
       </Flex>
       <Box display="flex" flexDirection='column' width='80%' alignItems='center' marginTop='20px' borderTop='3px solid #E8E9EB'>
         <Box display='flex' alignItems='center' mt='20px'>

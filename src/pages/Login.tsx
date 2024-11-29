@@ -63,8 +63,8 @@ export const Login = ():React.JSX.Element => {
       >
         <Flex flexDirection="column" width="80%">
           <Flex alignItems="center" justifyContent="center" pb="3rem">
-            <Icon as={HiHashtag} boxSize={{base: '50px'}} color="#0DCBE4" />
-            <Text fontSize={{base: '2.5rem'}} fontWeight={900}>
+            <Icon as={HiHashtag} boxSize={{base: '70px'}} color="#0DCBE4" />
+            <Text fontSize={{base: '3rem'}} fontWeight={900}>
               Login
             </Text>
           </Flex>
@@ -78,7 +78,6 @@ export const Login = ():React.JSX.Element => {
                 borderColor="transparent"
                 mt='1rem'
                 pl="3%"
-                pr="4.7rem"
                 width="80%"
                 height="50px"
                 placeholder={isPhone ? '' : "아이디를 입력하세요."}

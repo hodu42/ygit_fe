@@ -134,7 +134,7 @@ export function ImageUploadTab():React.JSX.Element {
   }
 
   return (
-    <Box>
+    <Box display='flex' justifyContent='center' alignItems='center' width='100%' height='100%'>
       {/* 이미지가 없으면 업로드화면 / 있으면 이미지 보여줌 */}
       {resultImage ?
         <ImagePreview img={resultImage}/>

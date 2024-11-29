@@ -1,4 +1,4 @@
-import { Box, Button, Icon, Text } from '@chakra-ui/react'
+import { Box, Button, Icon, Text, useBreakpointValue } from '@chakra-ui/react'
 import { FiUpload } from 'react-icons/fi'
 import React from 'react'
 
@@ -11,30 +11,42 @@ type ImageUploadProps = {
 }
 
 export const ImageUpload:React.FC<ImageUploadProps> = ({ onDrop, onDragOver, onUploadImageBtnClick, inputRef, onUploadImage }) => {
+  const isPhone = useBreakpointValue({base: true, lg: false})
 
   return (
-    <Box mt='30px' width="80%" height='46rem' bg='#FFF'
+    <Box width="60%"
+         height='75%'
+         borderRadius={5}
+         bg='#FFF'
+         display='flex'
+         flexDirection='column'
+         justifyContent='space-evenly'
+         alignItems='center'
          onDrop={onDrop}
          onDragOver={onDragOver}
     >
-      <Box pt={200} pb={150}>
-        <Icon as={FiUpload} boxSize={100} color='#DBDBDB' mb={5} />
-        <Text fontSize="2.2rem"
-              fontWeight={700}
-              color='#DBDBDB'>업로드 할 이미지를 드래그하거나,<br />
-          파일 탐색기에서 선택하세요.</Text>
+      <Box>
+        <Icon as={FiUpload} boxSize={{ base: 90, '2xl': 100}} color='#DBDBDB' mb={5} />
+        {isPhone ? ''
+          :
+          <Text fontSize={{ base: '2rem' , '2xl': '2.2rem' }}
+                fontWeight={700}
+                color='#DBDBDB'>업로드 할 이미지를 드래그하거나,<br />
+          파일 탐색기에서 선택하세요.</Text>}
+
       </Box>
       <input type='file' accept='image/*' ref={inputRef} onChange={onUploadImage} hidden />
-      <Button bg='#0DCBE4'
+      <Button minWidth='269px'
+              width='30%'
+              bg='#0DCBE4'
               color='white'
               borderColor='transparent'
-              fontSize="1.7rem"
+              fontSize={{ base: '1.5rem' , '2xl': '1.7rem' }}
               fontWeight={700}
               _hover={{ backgroundColor: '#0DA3E4' }}
               type='submit'
               sx={{
-                padding: '27px 30px',
-                marginBottom: '50px'
+                padding: '27px 30px'
               }}
               onClick={onUploadImageBtnClick}
       >
