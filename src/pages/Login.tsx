@@ -24,8 +24,8 @@ export const Login = ():React.JSX.Element => {
   const showToast = useToastHandler();
   const isPhone = useBreakpointValue({base: true, xl: false})
 
-  const handleLogin = async () => {
-
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     try {
       const response = await axios.post(`${BASE_URL}/token`, qs.stringify({
         username: id,
@@ -68,10 +68,11 @@ export const Login = ():React.JSX.Element => {
               Login
             </Text>
           </Flex>
-          <Flex flexDirection="column" alignItems="center">
-            <Text pl="2rem" width="80%" ml="2rem" fontSize="1.6rem" fontFamily="Pretendard" fontWeight="600">
-              ID
-            </Text>
+          <form onSubmit={handleLogin}>
+            <Flex flexDirection="column" alignItems="center">
+              <Text pl="2rem" width="80%" ml="2rem" fontSize="1.6rem" fontFamily="Pretendard" fontWeight="600">
+                ID
+              </Text>
               <Input
                 type="text"
                 bg="#f4f6f9"
@@ -87,66 +88,67 @@ export const Login = ():React.JSX.Element => {
                 value={id}
                 onChange={(e) => setId(e.target.value)}
               />
-          </Flex>
-          <Flex mt="4rem" flexDirection="column" alignItems="center">
-            <Text pl="2rem" width="80%" ml="2rem" fontSize="1.6rem" fontFamily="Pretendard" fontWeight="600">
-              PW
-            </Text>
-            <InputGroup width="80%" mt="1rem" position="relative">
-              <Input
-                type={show ? 'text' : 'password'}
-                bg="#f4f6f9"
-                borderColor="transparent"
-                pl="3%"
-                pr="4.7rem"
-                width="100%"
-                height="50px"
-                placeholder={isPhone ? '' : "비밀번호를 입력하세요."}
-                fontSize="1.3rem"
-                fontWeight={600}
-                focusBorderColor="#0dcbe4"
-                value={pw}
-                onChange={(e) => setPw(e.target.value)}
-              />
-              <InputRightElement width="4.5rem" height="50px" position="absolute" display="flex" alignItems="center">
-                <Button
-                  h="40px"
-                  bg="#e2e8f0"
-                  onClick={() => setShow(!show)}
-                  _hover={{ backgroundColor: '#cbd5e0' }}
+            </Flex>
+            <Flex mt="4rem" flexDirection="column" alignItems="center">
+              <Text pl="2rem" width="80%" ml="2rem" fontSize="1.6rem" fontFamily="Pretendard" fontWeight="600">
+                PW
+              </Text>
+              <InputGroup width="80%" mt="1rem" position="relative">
+                <Input
+                  type={show ? 'text' : 'password'}
+                  bg="#f4f6f9"
+                  borderColor="transparent"
+                  pl="3%"
+                  pr="4.7rem"
+                  width="100%"
+                  height="50px"
+                  placeholder={isPhone ? '' : "비밀번호를 입력하세요."}
                   fontSize="1.3rem"
-                >
-                  {show ? 'Hide' : 'Show'}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </Flex>
-          <Flex position="relative" flexDirection='column' justifyContent="space-evenly" alignItems="center" pt="5rem">
-            <Button
-              bg="#0DCBE4"
-              color="white"
-              borderColor="transparent"
-              fontSize="1.8rem"
-              height="50px"
-              _hover={{ backgroundColor: '#0DA3E4' }}
-              onClick={handleLogin}
-              sx={{
-                padding: '30px 80px',
-              }}
-            >
-              Login
-            </Button>
-            <ChakraLink
-              _hover={{ textDecoration: "underline" }}
-              as={ReactRouterLink}
-              to="/register"
-              display="inline-flex"
-              color='#47484a'
-              pt='2rem'
-            >
-              <Text fontSize="1.8rem" >Register</Text>
-            </ChakraLink>
-          </Flex>
+                  fontWeight={600}
+                  focusBorderColor="#0dcbe4"
+                  value={pw}
+                  onChange={(e) => setPw(e.target.value)}
+                />
+                <InputRightElement width="4.5rem" height="50px" position="absolute" display="flex" alignItems="center">
+                  <Button
+                    h="40px"
+                    bg="#e2e8f0"
+                    onClick={() => setShow(!show)}
+                    _hover={{ backgroundColor: '#cbd5e0' }}
+                    fontSize="1.3rem"
+                  >
+                    {show ? 'Hide' : 'Show'}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </Flex>
+            <Flex position="relative" flexDirection='column' justifyContent="space-evenly" alignItems="center" pt="5rem">
+              <Button
+                type='submit'
+                bg="#0DCBE4"
+                color="white"
+                borderColor="transparent"
+                fontSize="1.8rem"
+                height="50px"
+                _hover={{ backgroundColor: '#0DA3E4' }}
+                sx={{
+                  padding: '30px 80px',
+                }}
+              >
+                Login
+              </Button>
+              <ChakraLink
+                _hover={{ textDecoration: "underline" }}
+                as={ReactRouterLink}
+                to="/register"
+                display="inline-flex"
+                color='#47484a'
+                pt='2rem'
+              >
+                <Text fontSize="1.8rem" >Register</Text>
+              </ChakraLink>
+            </Flex>
+          </form>
         </Flex>
       </Flex>
     </Flex>
