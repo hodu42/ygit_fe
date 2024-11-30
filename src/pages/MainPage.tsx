@@ -14,7 +14,7 @@ import { FaCloudArrowUp } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto } from "react-icons/md";
 import React, { useEffect } from 'react'
-import { ResultImageWithoutTags } from '@types';
+import { ImgIdx, ResultImageWithoutTags } from '@types'
 import { FolderComponent } from '../components/FolderComponent';
 import { ImageComponent } from '../components/ImageComponent';
 import { SearchBox } from '../components/SearchBox';
@@ -26,7 +26,7 @@ import { Logout } from '../components/Logout'
 
 export function MainPage(): React.ReactElement {
   const [searchKeyword, setSearchKeyword] = React.useState<string>("");
-  const [searchResult, setSearchResult] = React.useState<ResultImageWithoutTags[]>([]);
+  const [searchResult, setSearchResult] = React.useState<ImgIdx[]>([]);
   const navigate = useNavigate();
 
   // 로그인 안되어있으면 로그인 페이지로 자동 리다이렉션
@@ -70,7 +70,7 @@ export function MainPage(): React.ReactElement {
               {/*}*/}
               {
                 searchResult.map((image) => (
-                  <ImageComponent name={image.name} image={image.image}/>
+                  <ImageComponent name={image.name} image={image.src}/>
                 ))
               }
             </SimpleGrid>

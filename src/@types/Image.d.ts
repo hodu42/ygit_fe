@@ -4,7 +4,7 @@ declare module "@types" {
     image: Blob;
   }
   type ImgIdx = {
-    id: string;
+    src: string;
     name: string;
   }
   type ResultImage = {

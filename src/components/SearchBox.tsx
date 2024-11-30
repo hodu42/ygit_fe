@@ -6,15 +6,15 @@ import {
 } from '@chakra-ui/react'
 import { IoSearchSharp } from "react-icons/io5";
 import React, { useEffect } from 'react'
-import { ResultImageWithoutTags, ImgIdx } from '@types'
+import { ImgIdx } from '@types'
 import { BASE_URL } from '../config/Config'
 import axios from 'axios'
 
 type SearchBoxProps = {
   searchKeyword: string;
   setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
-  searchResult: ResultImageWithoutTags[];
-  setSearchResult: React.Dispatch<React.SetStateAction<ResultImageWithoutTags[]>>;
+  searchResult: ImgIdx[];
+  setSearchResult: React.Dispatch<React.SetStateAction<ImgIdx[]>>;
 }
 
 export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKeyword, searchResult, setSearchResult}) => {
@@ -44,40 +44,17 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
       });
 
       // 2. 이미지 데이터를 저장할 배열
-      const imgList: ResultImageWithoutTags[] = [];
+      const imgList: ImgIdx[] = [];
 
-      // 3. 각 이미지에 대해 데이터 가져오기
-      const promises = searchResponse.data.map(async (result) => {
-        try {
-          const imageResponse = await axios.get(`${BASE_URL}/images/${result.id}`, {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem('token')}`
-            },
-            responseType: 'arraybuffer'  // FileResponse를 처리하기 위해 arraybuffer로 받음
-          });
+      searchResponse.data.map((result) => {
+        imgList.push({
+          src: `${BASE_URL}/${result.src}`,
+          name: result.name
+        })
+      })
 
-          // arraybuffer를 Blob으로 변환하고 URL 생성
-          const blob = new Blob([imageResponse.data]);
-          const imageUrl = URL.createObjectURL(blob);
-
-          imgList.push({
-            name: result.name,
-            image: imageUrl,
-          });
-        } catch (error) {
-          console.error(`Failed to fetch image ${result.id}:`, error);
-        }
-      });
-
-      // 4. 모든 이미지 요청이 완료될 때까지 기다림
-      await Promise.all(promises);
-
-      // 5. 상태 업데이트
       setSearchResult(imgList);
-
-      return imgList;
     } catch (error) {
-      console.error('이미지 검색 중 오류 발생:', error);
       throw error;
     }
   };
