@@ -35,10 +35,12 @@ export function ImageUploadTab():React.JSX.Element {
   }
 
   // 이미지로부터 태그 리스트를 가져오는 코드
-  const getTagsFromImg = async (pictureId: number) => {
-
+  const getTagsFromImg = async (imageName: string) => {
+    const image = {
+      image_name: imageName
+    }
     try {
-      const response = await axios.post(`${BASE_URL}/extract-tags`, pictureId, {
+      const response = await axios.post(`${BASE_URL}/extract-tags`, image, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
         },
@@ -62,7 +64,7 @@ export function ImageUploadTab():React.JSX.Element {
       const file = files[0];
       try {
         const uploadedImage = await handleImageUpload(file);
-        const tags = await getTagsFromImg(uploadedImage.id);
+        const tags = await getTagsFromImg(uploadedImage);
         const reader = new FileReader();
         reader.readAsDataURL(file);
         
@@ -101,8 +103,8 @@ export function ImageUploadTab():React.JSX.Element {
       const file = files[0];
   
       try {
-        const uploadedImage = await handleImageUpload(file);
-        const tags = await getTagsFromImg(uploadedImage.id);
+        const uploadedImageName = await handleImageUpload(file);
+        const tags = await getTagsFromImg(uploadedImageName);
         const reader = new FileReader();
         reader.readAsDataURL(file);
         
