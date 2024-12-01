@@ -3,13 +3,7 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom'
 import { ResultImageWithoutTags } from "@types"
 
-type ImageComponentProps = {
-  name: string;
-  image: string;
-  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-}
-
-export function ImageComponent({ name, image, onClick }: ImageComponentProps):React.ReactElement {
+export function MyLearningImageComponent({ name, image }: ResultImageWithoutTags):React.ReactElement {
 
   // 파일 이름과 확장자 분리
   const parts = name.split('.');
@@ -22,7 +16,7 @@ export function ImageComponent({ name, image, onClick }: ImageComponentProps):Re
   return (
     <ChakraLink
       as={ReactRouterLink}
-      onClick={onClick}
+      // to={src}
       display="inline-flex"
       alignItems="center"
     >

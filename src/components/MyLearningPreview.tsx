@@ -3,7 +3,7 @@ import React, { Fragment, useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
 import useToastHandler from '../components/useToastHandler'
-import { ImageComponent } from '../components/ImageComponent'
+import { MyLearningImageComponent } from '../components/MyLearningImageComponent'
 
 type MyLearningPreviewProps = {
   imgs: File[]
@@ -51,7 +51,7 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
       >
         {
           imgs.map((img) => (
-            <ImageComponent name={img.name} image={window.URL.createObjectURL(img)}/>
+            <MyLearningImageComponent name={img.name} image={window.URL.createObjectURL(img)}/>
           ))
         }
       </Flex>
