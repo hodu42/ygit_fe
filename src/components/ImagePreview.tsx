@@ -26,7 +26,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
         top={8}
         right={10}
       >
-        <Icon as={FaTrashCan} boxSize={70} color='#f43535'/>
+        <Icon as={FaTrashCan} boxSize={{base : 41, xl: 55, '2xl': 70}} color='#f43535'/>
       </ChakraLink>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
       <Box display="flex" width='80%' height='80%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
