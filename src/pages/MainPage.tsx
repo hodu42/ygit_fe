@@ -61,7 +61,7 @@ export function MainPage(): React.ReactElement {
         <TabPanel overflowY='auto' height='87vh'>
           <Flex width='80%' flexDirection='column'>
             <SearchBox searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchResult={searchResult} setSearchResult={setSearchResult} />
-            <SimpleGrid justifyItems='center' columns={{ base: 1, sm: 2, md: 3, lg: 4, '2xl': 6}} spacingY={8}>
+            <SimpleGrid justifyItems='center' columns={{ base: 1, sm: 2, md: 4, lg: 5, xl: 6}} spacingY={8}>
               {/* 폴더 리스트 보여주는 코드 */}
               {/*{*/}
               {/*  folderList.map((folder) => (*/}
