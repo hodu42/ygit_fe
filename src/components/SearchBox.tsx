@@ -121,7 +121,7 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
             }}>
             {
               modelList.map((model) => (
-                <option value={model}>{model}</option>
+                <option key={model} value={model}>{model}</option>
               ))
             };
           </Select>
