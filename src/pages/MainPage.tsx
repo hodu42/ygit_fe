@@ -8,21 +8,14 @@ import {
   Box,
   SimpleGrid,
   Flex,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton
 } from '@chakra-ui/react'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { FaCloudArrowUp } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto } from "react-icons/md";
 import React, { useEffect } from 'react'
-import axios from 'axios'
-import { ImgIdx, ResultImageWithoutTags, ResultImage } from '@types'
-import { FolderComponent } from '../components/FolderComponent';
+import { ImgIdx, ResultImage } from '@types'
 import { ImageComponent } from '../components/ImageComponent';
 import { SearchBox } from '../components/SearchBox';
 import { MainLogo } from '../components/MainLogo';
@@ -30,10 +23,10 @@ import { MyPageMenu } from '../components/MyPageMenu';
 import { ImageUploadTab } from '../tabs/ImageUploadTab'
 import { MyLearningTab } from '../tabs/MyLearningTab'
 import { Logout } from '../components/Logout'
-import { BASE_URL } from '../config/Config'
 import useToastHandler from '../components/useToastHandler'
-import { ImagePreview } from '../components/ImagePreview'
 import { ModalImagePreview } from '../components/ModalImagePreview'
+import { ModalImage } from '../components/ModalImage'
+import { BASE_URL } from '../config/Config'
 
 export function MainPage(): React.ReactElement {
   const [searchKeyword, setSearchKeyword] = React.useState<string>("");
@@ -51,16 +44,24 @@ export function MainPage(): React.ReactElement {
     }
   }
 
-  const handleImageClick = async (imageName: string ) => {
+  const handleImageClick = async (image_src: string ) => {
     try {
-      // const response = await axios.get(`${BASE_URL}/image-info/${imageName}`);
-      // setModalImage(response.data);
-      const tempImage: ResultImage = {
-        name: searchResult[0].name,
-        image: searchResult[0].src,
-        tags: ['태그1', '태그2', '태그3']
+      image_src = image_src.replace("uploads\\", '')
+      console.log(image_src)
+      const data = {
+        image_src: image_src
       }
-      setModalImage(tempImage);
+      const response = await axios.post<ResultImage>(`${BASE_URL}/view-images/`, data , {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        },
+      });
+      setModalImage({
+        name: response.data.name,
+        src: `${BASE_URL}${response.data.src}`,
+        tags: response.data.tags
+      });
+
       setIsOpen(true);
     } catch (error) {
       showToast('이미지 불러오기 실패', '불러오기에 실패하였습니다.', 'error');
@@ -105,22 +106,10 @@ export function MainPage(): React.ReactElement {
               {/*}*/}
               {
                 searchResult.map((image) => (
-                  <ImageComponent name={image.name} image={image.src} onClick={() => handleImageClick(image.src)}/>
+                  <ImageComponent name={image.name} image={`${BASE_URL}/${image.src}`} onClick={() => handleImageClick(image.src)}/>
                 ))
               }
-              <Modal isOpen={isOpen} onClose={handleClose}>
-                <ModalOverlay />
-                <ModalContent minWidth='60%' height='85%'>
-                  <ModalCloseButton />
-                  <ModalBody padding={0}>
-                    {modalImage ? (
-                      <ModalImagePreview img={modalImage}/>
-                    ) : (
-                      <p>데이터를 불러오는 중입니다...</p>
-                    )}
-                  </ModalBody>
-                </ModalContent>
-              </Modal>
+              <ModalImage isOpen={isOpen} handleClose={handleClose} modalImage={modalImage}/>
             </SimpleGrid>
           </Flex>
         </TabPanel>

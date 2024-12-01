@@ -47,7 +47,7 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
 
       searchResponse.data.map((result) => {
         imgList.push({
-          src: `${BASE_URL}/${result.src}`,
+          src: result.src,
           name: result.name
         })
       })

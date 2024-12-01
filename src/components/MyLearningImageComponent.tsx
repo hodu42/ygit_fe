@@ -3,7 +3,12 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom'
 import { ResultImageWithoutTags } from "@types"
 
-export function MyLearningImageComponent({ name, image }: ResultImageWithoutTags):React.ReactElement {
+type MyLearningImageComponentProps = {
+  name: string;
+  src: string;
+}
+
+export function MyLearningImageComponent({ name, src }: ResultImageWithoutTags):React.ReactElement {
 
   // 파일 이름과 확장자 분리
   const parts = name.split('.');
@@ -22,7 +27,7 @@ export function MyLearningImageComponent({ name, image }: ResultImageWithoutTags
     >
       <Box width={200} display='flex' justifyContent='center' alignItems='center'>
         <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly" alignItems="center">
-          <Image width={200} height={120} objectFit="contain" src={image} alt={name}/>
+          <Image width={200} height={120} objectFit="contain" src={src} alt={name}/>
           <Text fontSize="1.2rem">
             {fileNameWithoutExtension.length > maxFileNameLength
               ? `${fileNameWithoutExtension.slice(0, maxFileNameLength)}...`

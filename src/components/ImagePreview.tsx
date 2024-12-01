@@ -1,9 +1,8 @@
-import { Link as ReactRouterLink } from 'react-router-dom'
-import { Box, Icon, Tag, TagLabel, TagLeftIcon, Text, Wrap, WrapItem, Image as ChakraImage, Link as ChakraLink } from '@chakra-ui/react'
-import { FaTrashCan } from 'react-icons/fa6'
+import { Box, Tag, TagLabel, TagLeftIcon, Text, Wrap, WrapItem, Image as ChakraImage } from '@chakra-ui/react'
 import { HiHashtag } from 'react-icons/hi'
 import React from 'react'
 import { ResultImage } from '@types'
+import { DeleteButton } from '../components/DeleteButton'
 
 type ImagePreviewProps = {
   img: ResultImage
@@ -18,19 +17,10 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
          position='relative'
          justifyContent='space-evenly'
          alignItems='center'>
-      <ChakraLink
-        as={ReactRouterLink}
-        to='/'
-        display="inline-flex"
-        position='absolute'
-        top={8}
-        right={10}
-      >
-        <Icon as={FaTrashCan} boxSize={{base : 41, xl: 55, '2xl': 70}} color='#f43535'/>
-      </ChakraLink>
+      <DeleteButton/>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
       <Box display="flex" width='80%' height='80%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
-        <ChakraImage width='80%' height='60%' objectFit="contain" src={img.image}/>
+        <ChakraImage width='80%' height='60%' objectFit="contain" src={img.src}/>
         <Text fontSize="1.5rem">
           {img.name}
         </Text>

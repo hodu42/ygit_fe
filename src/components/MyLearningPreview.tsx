@@ -51,7 +51,7 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
       >
         {
           imgs.map((img) => (
-            <MyLearningImageComponent name={img.name} image={window.URL.createObjectURL(img)}/>
+            <MyLearningImageComponent name={img.name} src={window.URL.createObjectURL(img)}/>
           ))
         }
       </Flex>

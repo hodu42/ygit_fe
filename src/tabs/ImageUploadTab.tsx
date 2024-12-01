@@ -62,7 +62,7 @@ export function ImageUploadTab():React.JSX.Element {
         const previewImage = window.URL.createObjectURL(file);
         setResultImage({
           name: file.name,
-          image: previewImage,
+          src: previewImage,
           tags: tags, // 필요할 경우 태그 설정
         });
 

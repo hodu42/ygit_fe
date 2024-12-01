@@ -9,7 +9,7 @@ declare module "@types" {
   }
   type ResultImage = {
     name: string;
-    image: string;
+    src: string;
     tags: string[];
   }
   type ResultImageWithoutTags = Omit<ResultImage, 'tags'>
