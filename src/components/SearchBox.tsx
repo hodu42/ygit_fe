@@ -38,9 +38,7 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
     try {
       // 1. 태그로 검색하여 이미지 정보 가져오기
       const searchResponse = await axios.post<ImgIdx[]>(`${BASE_URL}/search-by-tags`, searchTagList, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-        },
+        withCredentials: true
       });
 
       // 2. 이미지 데이터를 저장할 배열
