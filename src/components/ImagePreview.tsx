@@ -13,10 +13,10 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
   return (
     <Box display='flex'
          flexDirection='column'
-         width='60%' height='75%'
+         width='60%' height='90%'
          borderRadius={5} bg='#FFF'
          position='relative'
-         justifyContent='center'
+         justifyContent='space-evenly'
          alignItems='center'>
       <ChakraLink
         as={ReactRouterLink}
@@ -29,15 +29,16 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
         <Icon as={FaTrashCan} boxSize={70} color='#f43535'/>
       </ChakraLink>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
-      <Box display="flex" width='80%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
+      <Box display="flex" width='80%' height='80%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
         <ChakraImage width='80%' height='60%' objectFit="contain" src={img.image}/>
         <Text fontSize="1.5rem">
           {img.name}
         </Text>
       </Box>
       <Wrap spacing={4}>
-        {img.tags.map((tag) => (
-          <WrapItem key={tag}>
+        {img.tags.length === 0
+          ?
+          <WrapItem key='empty'>
             <Tag
               size='lg'
               borderRadius='full'
@@ -52,10 +53,31 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
               }}
             >
               <TagLeftIcon boxSize='25px' as={HiHashtag} color='#198290'/>
-              <TagLabel>{tag}</TagLabel>
+              <TagLabel>추출된 태그 없음</TagLabel>
             </Tag>
           </WrapItem>
-        ))}
+          :
+          img.tags.map((tag) => (
+            <WrapItem key={tag}>
+              <Tag
+                size='lg'
+                borderRadius='full'
+                variant='solid'
+                bg='#0DCBE4'
+                fontWeight='900'
+                fontFamily='Pretendard'
+                fontSize='1.15rem'
+                sx={{
+                  height: '2.5rem',
+                  padding: '1rem',
+                }}
+              >
+                <TagLeftIcon boxSize='25px' as={HiHashtag} color='#198290'/>
+                <TagLabel>{tag}</TagLabel>
+              </Tag>
+            </WrapItem>
+          ))
+        }
       </Wrap>
     </Box>
   )
