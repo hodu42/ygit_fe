@@ -58,7 +58,7 @@ export function MainPage(): React.ReactElement {
       });
       setModalImage({
         name: response.data.name,
-        src: `${BASE_URL}${response.data.src}`,
+        src: `${BASE_URL}/${response.data.src}`,
         tags: response.data.tags
       });
 
