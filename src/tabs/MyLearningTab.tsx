@@ -1,7 +1,12 @@
 import { Box, Button, Flex, Text, Image, Select, Input } from '@chakra-ui/react'
-import React from 'react'
+import React, { useRef, useState } from 'react'
+import { MyLearningPreview } from '../components/MyLearningPreview'
+import { MyLearningUpload } from '../components/MyLearningUpload'
 
 export const MyLearningTab = ():React.JSX.Element => {
+  const [images, setImages] = useState<File[]>([]);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   const testComponent = (): React.ReactElement =>
     (
       <Box width={200} height={220} display="flex" flexDirection="column" justifyContent="space-evenly"
@@ -18,107 +23,34 @@ export const MyLearningTab = ():React.JSX.Element => {
 
   const [labelInput, setLabelInput] = React.useState<string>('')
 
+  const onUploadImageBtnClick = () => {
+    inputRef.current?.click();
+  };
+
+  // 이미지들을 업로드하면 그 리스트들을 저장
+  const onUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newImages = [...images];
+
+    for (let i = 0; i < e.target.files!.length; i++) {
+      const file = e.target.files![i];
+      newImages.push(file);
+    }
+    setImages(newImages);
+  }
+
   return (
-    <Box display='flex' flexDirection='column' alignItems='center' mt='30px' width="80%" height='46rem' bg='#FFF'>
-      <Flex width='100%'
-            justifyContent='space-evenly'
-            flexWrap='wrap'
-            overflowY='auto'
-            padding='0 15%'
-            height='80%'
-      >
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-        {testComponent()}
-      </Flex>
-      <Box display="flex" flexDirection='column' width='80%' alignItems='center' marginTop='20px' borderTop='3px solid #E8E9EB'>
-        <Box display='flex' alignItems='center' mt='20px'>
-          <Text mr='10px' fontSize='1.5rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>학습시킬 모델 :</Text>
-          <Select
-            width='10rem'
-            height='50px'
-            bg='#0DCBE4'
-            color='white'
-            borderColor='none'
-            fontSize="1.4rem"
-            fontFamily='Pretendard'
-            fontWeight={600}
-            sx={{
-              textAlign: 'center',
-              option: {
-                textAlign: 'center',
-                backgroundColor: 'transparent',
-                fontWeight: '600'
-              },
-            }}>
-            {
-              modelList.map((model) => (
-                <option value={model}>{model}</option>
-              ))
-            };
-          </Select>
-        </Box>
-        <Box display='flex' justifyContent='space-evenly' alignItems='center' mt='20px' mb='20px'>
-          <Input
-            bg='#f4f6f9'
-            borderColor='transparent'
-            pl="5%"
-            width='100%'
-            height="50px"
-            placeholder="Label을 입력"
-            textAlign="center"
-            fontSize="1.3rem"
-            fontWeight={600}
-            focusBorderColor="#0dcbe4"
-            value={labelInput}
-            onChange={(e) => setLabelInput(e.target.value)}
-          />
-          <Button
-            bg='#0DCBE4'
-            color='white'
-            borderColor='transparent'
-            fontSize="1.4rem"
-            fontWeight={700}
-            height='50px'
-            ml='40px'
-            _hover={{backgroundColor: '#0DA3E4'}}
-            sx={{
-              padding: '0 40px'
-            }}>
-            학습
-          </Button>
-        </Box>
-      </Box>
+    <Box display='flex' flexDirection='column' alignItems='center' width="60%" height='75%' bg='#FFF' borderRadius={5}>
+      {/* 이미지가 없으면 업로드 화면 / 있으면 이미지들을 보여줌 */}
+      {
+        images.length > 0 ?
+          <MyLearningPreview imgs={images}/>
+          :
+          <MyLearningUpload
+            onUploadImageBtnClick={onUploadImageBtnClick}
+            inputRef={inputRef}
+            onUploadImage={onUploadImage}
+            />
+      }
     </Box>
-    /*
-      <Box pt={200} pb={150}>
-      <Icon as={FiUpload} boxSize={100} color='#DBDBDB' mb={5}/>
-      <Text fontSize="2.2rem"
-            fontWeight={700}
-            color='#DBDBDB'>학습시킬 이미지들을<br/>
-        파일 탐색기에서 선택하세요.</Text>
-    </Box>
-    <Button bg='#0DCBE4'
-            color='white'
-            borderColor='transparent'
-            fontSize="1.7rem"
-            fontWeight={700}
-            _hover={{backgroundColor: '#0DA3E4'}}
-            sx={{
-              padding: '27px 30px',
-              marginBottom: '50px'
-            }}>
-      파일 탐색기에서 열기
-    </Button>
-    */
   )
 }

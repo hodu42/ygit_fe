@@ -76,7 +76,7 @@ export function MainPage(): React.ReactElement {
             </SimpleGrid>
           </Flex>
         </TabPanel>
-        <TabPanel overflow='hidden' height='100%' padding='0'>
+        <TabPanel display='flex' justifyContent='center' alignItems='center' overflow='hidden' height='100%' padding='0'>
           <MyLearningTab/>
         </TabPanel>
       </TabPanels>
