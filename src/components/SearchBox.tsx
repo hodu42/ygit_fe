@@ -6,9 +6,11 @@ import {
 } from '@chakra-ui/react'
 import { IoSearchSharp } from "react-icons/io5";
 import React, { useEffect } from 'react'
+import axios, { AxiosError } from 'axios'
 import { ImgIdx } from '@types'
 import { BASE_URL } from '../config/Config'
-import axios from 'axios'
+import useToastHandler from '../components/useToastHandler'
+import { useNavigate } from 'react-router-dom'
 
 type SearchBoxProps = {
   searchKeyword: string;
@@ -20,6 +22,8 @@ type SearchBoxProps = {
 export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKeyword, searchResult, setSearchResult}) => {
   const [searchTagList, setSearchTagList] = React.useState<string[]>([]);
   const [modelList, setModelList] = React.useState<string[]>([]);
+  const showToast = useToastHandler();
+  const navigate = useNavigate();
 
   useEffect( () => { // 서버로 부터 받아오는 코드
     // 서버로부터 모델 리스트를 받아오는 코드
@@ -54,7 +58,13 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
 
       setSearchResult(imgList);
     } catch (error) {
-      throw error;
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 401) {
+          showToast('로그인 정보 만료', '다시 로그인해주세요', 'warning');
+          sessionStorage.removeItem('token');
+          navigate('/login');
+        }
+      }
     }
   };
 
