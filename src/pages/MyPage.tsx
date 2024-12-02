@@ -23,6 +23,10 @@ export const MyPage = ():React.JSX.Element => {
                 userId: response.data.user_id,
                 modelLists: response.data.model_list,
             })
+
+            if (userInfo) {
+                setSelectedModel(response.data.model_list[0]);
+            }
         } catch (error) {
             showToast('유저 정보 불러오기 실패', '불러오기에 실패하였습니다.', 'error');
         }
@@ -38,7 +42,7 @@ export const MyPage = ():React.JSX.Element => {
             const data = {
                 model_name: currentModel
             }
-
+            console.log(currentModel)
             const response = await axios.delete(`${BASE_URL}/delete-model`, {
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
