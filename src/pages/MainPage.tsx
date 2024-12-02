@@ -131,7 +131,7 @@ export function MainPage(): React.ReactElement {
               {/*}*/}
               {
                 searchResult.map((image) => (
-                  <Skeleton isLoaded={!isLoading}>
+                  <Skeleton isLoaded={!isLoading} fadeDuration={1}>
                     <ImageComponent name={image.name} image={`${BASE_URL}/${image.src}`} onClick={() => handleImageClick(image.src)}/>
                   </Skeleton>
                 ))
