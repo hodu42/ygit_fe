@@ -26,7 +26,6 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
     // 이미지들을 formData에 image로 저장
     imgs.map((img) => formData.append('image', img))
     formData.append('label', labelInput)
-    formData.append('model', selectedModel)
     formData.append('newModelName', newModelInput)
 
     try {
@@ -80,30 +79,20 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
         <Box>
           <Box display='flex' alignItems='center' mt='20px'>
             <Text mr='10px' fontSize='1.5rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>학습시킬 모델 :</Text>
-            <Select
-              width='10rem'
-              height='50px'
+            <Button
               bg='#0DCBE4'
               color='white'
-              border="none"
+              borderColor='transparent'
               fontSize="1.4rem"
-              fontFamily='Pretendard'
-              fontWeight={600}
-              onChange={handleChangeSelect}
+              fontWeight={700}
+              height='50px'
+              ml='40px'
+              _hover={{backgroundColor: '#0DA3E4'}}
               sx={{
-                textAlign: 'center',
-                option: {
-                  textAlign: 'center',
-                  backgroundColor: 'transparent',
-                  fontWeight: '600'
-                },
+                padding: '0 40px'
               }}>
-              {
-                modelList.map((model) => (
-                  <option value={model}>{model}</option>
-                ))
-              }
-            </Select>
+              { selectedModel }
+            </Button>
           </Box>
           <Box display='flex' alignItems='center' mt='20px'>
             <Input
