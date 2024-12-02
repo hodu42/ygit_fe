@@ -50,6 +50,7 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
         },
       });
       setModelList(response.data.model_list)
+      setSelectedModel(response.data.model_list[0])
     } catch (error) {
       showToast('모델 정보 불러오기 실패', '불러오기에 실패하였습니다.', 'error');
     }
