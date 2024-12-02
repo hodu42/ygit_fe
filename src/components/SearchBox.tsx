@@ -64,7 +64,7 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
 
   return (
     <Box mt={30}>
-      <Box display="flex" justifyContent='space-between'>
+      <Box display="flex" justifyContent='space-evenly'>
         <InputGroup alignItems='center'>
           <InputLeftElement width="5%" height="60px" pointerEvents="none">
             <Icon as={IoSearchSharp} boxSize="30px" color="#0dcbe4" />
@@ -73,7 +73,7 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
             bg='#FFF'
             borderColor='transparent'
             pl="5%"
-            width='70%'
+            width='100%'
             height="60px"
             placeholder="검색할 태그를 입력하세요"
             fontSize="1.3rem"
@@ -99,33 +99,6 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
             검색
           </Button>
         </InputGroup>
-
-        <Box width='40rem' display="flex" justifyContent='space-between' alignItems="center">
-          <Text fontSize='1.6rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>사용할 모델</Text>
-          <Select
-            width='15rem'
-            height='60px'
-            bg='#0DCBE4'
-            color='white'
-            borderColor='none'
-            fontSize="1.5rem"
-            fontFamily='Pretendard'
-            fontWeight={600}
-            sx={{
-              textAlign: 'center',
-              option: {
-                textAlign: 'center',
-                backgroundColor: 'transparent',
-                fontWeight: '600'
-              },
-            }}>
-            {
-              modelList.map((model) => (
-                <option key={model} value={model}>{model}</option>
-              ))
-            };
-          </Select>
-        </Box>
       </Box>
       <Wrap spacing={4} mt={10} mb={5} ml={7}>
         {searchTagList.map((tag) => (
