@@ -7,14 +7,14 @@ import {
   TabPanels,
   Box,
   SimpleGrid,
-  Flex,
+  Flex, Skeleton
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { FaCloudArrowUp } from "react-icons/fa6";
 import { AiFillPicture } from "react-icons/ai";
 import { MdAddAPhoto } from "react-icons/md";
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ImgIdx, ResultImage } from '@types'
 import { ImageComponent } from '../components/ImageComponent';
 import { SearchBox } from '../components/SearchBox';
@@ -34,6 +34,7 @@ export function MainPage(): React.ReactElement {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [modalImage, setModalImage] = React.useState<ResultImage | null>(null);
   const [currentImageSrc, setCurrentImageSrc] = React.useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const showToast = useToastHandler();
 
@@ -62,7 +63,6 @@ export function MainPage(): React.ReactElement {
         src: `${BASE_URL}/${response.data.src}`,
         tags: response.data.tags
       });
-
       setIsOpen(true);
     } catch (error) {
       showToast('이미지 불러오기 실패', '불러오기에 실패하였습니다.', 'error');
@@ -86,13 +86,13 @@ export function MainPage(): React.ReactElement {
         },
         data: data
       })
-      showToast('이미지 삭제 성공', `${modalImage?.name} 삭제 완료`, 'success');
       // resultImage 초기화
       setModalImage(null);
       setCurrentImageSrc('');
       handleClose();
       // 삭제시 태그 없이 다시 검색하게 만들기
       window.location.reload();
+      showToast('이미지 삭제 성공', `${modalImage?.name} 삭제 완료`, 'success');
     } catch  (error) {
       showToast('이미지 삭제 실패', '이미지 삭제에 실패하였습니다.', 'error');
     }
@@ -121,7 +121,7 @@ export function MainPage(): React.ReactElement {
         </TabPanel>
         <TabPanel overflowY='auto' height='87vh'>
           <Flex width='80%' flexDirection='column'>
-            <SearchBox searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchResult={searchResult} setSearchResult={setSearchResult} />
+            <SearchBox searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchResult={searchResult} setSearchResult={setSearchResult} isLoading={isLoading} setIsLoading={setIsLoading}/>
             <SimpleGrid justifyItems='center' columns={{ base: 1, sm: 2, md: 3, lg: 4, '2xl': 6}} spacingY={8}>
               {/* 폴더 리스트 보여주는 코드 */}
               {/*{*/}
@@ -131,7 +131,9 @@ export function MainPage(): React.ReactElement {
               {/*}*/}
               {
                 searchResult.map((image) => (
-                  <ImageComponent name={image.name} image={`${BASE_URL}/${image.src}`} onClick={() => handleImageClick(image.src)}/>
+                  <Skeleton isLoaded={!isLoading}>
+                    <ImageComponent name={image.name} image={`${BASE_URL}/${image.src}`} onClick={() => handleImageClick(image.src)}/>
+                  </Skeleton>
                 ))
               }
               <ModalImage isOpen={isOpen} handleClose={handleClose} modalImage={modalImage} onClick={() => handleDeleteImage(currentImageSrc)}/>

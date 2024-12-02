@@ -17,19 +17,18 @@ type SearchBoxProps = {
   setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
   searchResult: ImgIdx[];
   setSearchResult: React.Dispatch<React.SetStateAction<ImgIdx[]>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKeyword, searchResult, setSearchResult}) => {
+export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKeyword, searchResult, setSearchResult, isLoading, setIsLoading}) => {
   const [searchTagList, setSearchTagList] = React.useState<string[]>([]);
-  const [modelList, setModelList] = React.useState<string[]>([]);
   const showToast = useToastHandler();
   const navigate = useNavigate();
 
   useEffect( () => { // 서버로 부터 받아오는 코드
-    // 서버로부터 모델 리스트를 받아오는 코드
-    setModelList([`COCO`, 'Object 365', '나만의 모델']);
     handleSearch();
-  }, []);
+  }, [searchTagList]);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && searchKeyword.trim() !== '' && !searchTagList.find((keyword) => keyword === searchKeyword)) {
@@ -40,6 +39,8 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
 
   const handleSearch = async () => {
     try {
+      setIsLoading(!isLoading);
+
       // 1. 태그로 검색하여 이미지 정보 가져오기
       const searchResponse = await axios.post<ImgIdx[]>(`${BASE_URL}/search-by-tags`, searchTagList, {
         headers: {
@@ -57,6 +58,7 @@ export const SearchBox: React.FC<SearchBoxProps>  = ({searchKeyword, setSearchKe
       })
 
       setSearchResult(imgList);
+      setIsLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         if (error.response.status === 401) {
