@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useEffect } from 'react'
+import axios from 'axios'
 import { Button, Flex, Icon, Input, Select, Text} from "@chakra-ui/react";
 import {HiHashtag} from "react-icons/hi";
 import {BackButton} from "../components/BackButton";
+import { BASE_URL } from '../config/Config'
+import { MyInfo } from '@types'
+import useToastHandler from '../components/useToastHandler'
 
 export const MyPage = ():React.JSX.Element => {
-    const [id, setId] = React.useState('hodu42');
-    const [pw, setPw] = React.useState('');
-    const [valid, setValid] = React.useState(false);
-    const [show, setShow] = React.useState(false);
-    const modelList = ['모델1', '모델2', '모델3'];
+    const [userInfo, setUserInfo] = React.useState<MyInfo | null>(null);
+    const showToast = useToastHandler();
+
+    const handleFetch = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/mypage-view-model`, undefined, {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+            setUserInfo({
+                userId: response.data.user_id,
+                modelLists: response.data.model_list,
+            })
+        } catch (error) {
+            showToast('유저 정보 불러오기 실패', '불러오기에 실패하였습니다.', 'error');
+        }
+    }
+
+    useEffect( () => { // 서버로 부터 받아오는 코드
+        // 서버로부터 모델 리스트를 받아오는 코드
+        handleFetch();
+    }, []);
 
     return (
         <Flex bg='#F4F6F9' width='100%' height='100vh' alignItems='center'>
@@ -30,7 +52,7 @@ export const MyPage = ():React.JSX.Element => {
                             fontSize="1.5rem"
                             fontWeight={600}
                             focusBorderColor="#0dcbe4"
-                            value={id}
+                            value={userInfo?.userId}
                             isDisabled
                             textAlign='center'
                         />
@@ -56,7 +78,7 @@ export const MyPage = ():React.JSX.Element => {
                                 },
                             }}>
                             {
-                                modelList.map((model) => (
+                                userInfo?.modelLists.map((model) => (
                                     <option value={model}>{model}</option>
                                 ))
                             };
