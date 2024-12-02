@@ -29,7 +29,7 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
     formData.append('newModelName', newModelInput)
 
     try {
-      const response = await axios.post(`${BASE_URL}/`, formData, {
+      const response = await axios.post(`${BASE_URL}/finetune`, formData, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data'
