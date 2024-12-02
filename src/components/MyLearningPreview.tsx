@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Input, Select, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Select, Text, useToast } from '@chakra-ui/react'
 import React, { Fragment, useEffect, useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
@@ -7,27 +7,35 @@ import { MyLearningImageComponent } from '../components/MyLearningImageComponent
 
 type MyLearningPreviewProps = {
   imgs: File[]
+  setTabIndex: (tabIndex: number) => void;
 }
 
-export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) => {
+export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs, setTabIndex }) => {
   const [modelList, setModelList] = useState<string[]>([])
   const [selectedModel, setSelectedModel] = useState<string>('');
   const showToast = useToastHandler();
-  const [labelInput, setLabelInput] = React.useState<string>('')
-  const [newModelInput, setNewModelInput] = React.useState<string>('')
+  const [labelInput, setLabelInput] = React.useState<string>('');
+  const [newModelInput, setNewModelInput] = React.useState<string>('');
+  const toast = useToast();
 
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(e.target.value)
   }
 
   const handleImagesUpload = async () => {
+    const loadingToast = toast({
+      title: '나만의 학습 진행중',
+      description: '나만의 학습이 진행중입니다',
+      status: 'loading',
+      duration: null, // 사용자가 닫기 전까지 유지
+      isClosable: false,
+    });
     // formData 객체 생성
     const formData = new FormData()
     // 이미지들을 formData에 image로 저장
     imgs.map((img) => formData.append('image', img))
     formData.append('label', labelInput)
     formData.append('newModelName', newModelInput)
-
     try {
       const response = await axios.post(`${BASE_URL}/finetune`, formData, {
         headers: {
@@ -35,8 +43,13 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
           'Content-Type': 'multipart/form-data'
         },
       })
+
+      toast.close(loadingToast);
+      showToast('나만의 학습 성공', '학습 완료 및 태그 추출이 완료되었습니다', 'success');
+      setTabIndex(1);
       return response.data
     } catch (error) {
+      toast.close(loadingToast);
       showToast('이미지 업로드 실패', '업로드에 실패하였습니다.', 'error');
     }
   }

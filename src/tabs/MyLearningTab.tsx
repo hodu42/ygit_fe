@@ -3,7 +3,11 @@ import React, { useRef, useState } from 'react'
 import { MyLearningPreview } from '../components/MyLearningPreview'
 import { MyLearningUpload } from '../components/MyLearningUpload'
 
-export const MyLearningTab = ():React.JSX.Element => {
+type MyLearningTabProps = {
+  setTabIndex: (tabIndex: number) => void;
+}
+
+export const MyLearningTab = ({setTabIndex}: MyLearningTabProps):React.JSX.Element => {
   const [images, setImages] = useState<File[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -43,7 +47,7 @@ export const MyLearningTab = ():React.JSX.Element => {
       {/* 이미지가 없으면 업로드 화면 / 있으면 이미지들을 보여줌 */}
       {
         images.length > 0 ?
-          <MyLearningPreview imgs={images}/>
+          <MyLearningPreview imgs={images} setTabIndex={setTabIndex}/>
           :
           <MyLearningUpload
             onUploadImageBtnClick={onUploadImageBtnClick}

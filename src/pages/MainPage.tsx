@@ -35,6 +35,7 @@ export function MainPage(): React.ReactElement {
   const [modalImage, setModalImage] = React.useState<ResultImage | null>(null);
   const [currentImageSrc, setCurrentImageSrc] = React.useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tabIndex, setTabIndex] = useState<number>(1);
   const navigate = useNavigate();
   const showToast = useToastHandler();
 
@@ -103,7 +104,7 @@ export function MainPage(): React.ReactElement {
   }, []);
 
   return (
-    <Tabs isLazy align="center" defaultIndex={1} variant="unstyled" overflow='hidden' height='100vh'>
+    <Tabs isLazy align="center" defaultIndex={1} variant="unstyled" overflow='hidden' height='100vh' onChange={setTabIndex}>
       <Box position="sticky" top={0} height={120} bg='#FFF' zIndex='10'>
         <MainLogo />
         <TabList display="flex" width={400} height={120} justifyContent="space-between">
@@ -141,7 +142,7 @@ export function MainPage(): React.ReactElement {
           </Flex>
         </TabPanel>
         <TabPanel display='flex' justifyContent='center' alignItems='center' overflow='hidden' height='100%' padding='0'>
-          <MyLearningTab/>
+          <MyLearningTab setTabIndex={setTabIndex}/>
         </TabPanel>
       </TabPanels>
     </Tabs>
