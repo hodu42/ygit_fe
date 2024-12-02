@@ -38,7 +38,7 @@ export const MyPage = ():React.JSX.Element => {
             const data = {
                 model_name: currentModel
             }
-            // TODO 백엔드 주소에 맞게 수정 필요
+
             const response = await axios.delete(`${BASE_URL}/delete-model`, {
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
