@@ -1,2 +1,3 @@
 // 서버 주소
-export const BASE_URL: string = 'http://172.30.68.87:9898';
+export const BASE_URL: string = 'http://localhost:8000';
+// http://172.30.71.9:9898
