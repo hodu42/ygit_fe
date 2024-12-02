@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Input, Select, Text } from '@chakra-ui/react'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
 import useToastHandler from '../components/useToastHandler'
@@ -10,10 +10,11 @@ type MyLearningPreviewProps = {
 }
 
 export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) => {
-  const modelList = ['모델1', '모델2', '모델3']
+  const [modelList, setModelList] = useState<string[]>([])
   const [selectedModel, setSelectedModel] = useState<string>('');
   const showToast = useToastHandler();
   const [labelInput, setLabelInput] = React.useState<string>('')
+  const [newModelInput, setNewModelInput] = React.useState<string>('')
 
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(e.target.value)
@@ -26,6 +27,7 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
     imgs.map((img) => formData.append('image', img))
     formData.append('label', labelInput)
     formData.append('model', selectedModel)
+    formData.append('newModelName', newModelInput)
 
     try {
       const response = await axios.post(`${BASE_URL}/`, formData, {
@@ -39,6 +41,24 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
       showToast('이미지 업로드 실패', '업로드에 실패하였습니다.', 'error');
     }
   }
+
+  const handleFetchModel = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/mypage-view-model`, undefined, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        },
+      });
+      setModelList(response.data.model_list)
+    } catch (error) {
+      showToast('모델 정보 불러오기 실패', '불러오기에 실패하였습니다.', 'error');
+    }
+  }
+
+  useEffect( () => { // 서버로 부터 받아오는 코드
+    // 서버로부터 모델 리스트를 받아오는 코드
+    handleFetchModel();
+  }, []);
 
   return (
     <Fragment>
@@ -56,32 +76,50 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs }) =>
         }
       </Flex>
       <Box display="flex" flexDirection='column' width='80%' alignItems='center' marginTop='20px' borderTop='3px solid #E8E9EB'>
-        <Box display='flex' alignItems='center' mt='20px'>
-          <Text mr='10px' fontSize='1.5rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>학습시킬 모델 :</Text>
-          <Select
-            width='10rem'
-            height='50px'
-            bg='#0DCBE4'
-            color='white'
-            border="none"
-            fontSize="1.4rem"
-            fontFamily='Pretendard'
-            fontWeight={600}
-            onChange={handleChangeSelect}
-            sx={{
-              textAlign: 'center',
-              option: {
+        <Box>
+          <Box display='flex' alignItems='center' mt='20px'>
+            <Text mr='10px' fontSize='1.5rem' fontFamily='Pretendard' fontWeight='600' whiteSpace='nowrap'>학습시킬 모델 :</Text>
+            <Select
+              width='10rem'
+              height='50px'
+              bg='#0DCBE4'
+              color='white'
+              border="none"
+              fontSize="1.4rem"
+              fontFamily='Pretendard'
+              fontWeight={600}
+              onChange={handleChangeSelect}
+              sx={{
                 textAlign: 'center',
-                backgroundColor: 'transparent',
-                fontWeight: '600'
-              },
-            }}>
-            {
-              modelList.map((model) => (
-                <option value={model}>{model}</option>
-              ))
-            }
-          </Select>
+                option: {
+                  textAlign: 'center',
+                  backgroundColor: 'transparent',
+                  fontWeight: '600'
+                },
+              }}>
+              {
+                modelList.map((model) => (
+                  <option value={model}>{model}</option>
+                ))
+              }
+            </Select>
+          </Box>
+          <Box display='flex' alignItems='center' mt='20px'>
+            <Input
+              bg='#f4f6f9'
+              borderColor='transparent'
+              pl="5%"
+              width='100%'
+              height="50px"
+              placeholder="새 모델의 이름을 입력"
+              textAlign="center"
+              fontSize="1.3rem"
+              fontWeight={600}
+              focusBorderColor="#0dcbe4"
+              value={newModelInput}
+              onChange={(e) => setNewModelInput(e.target.value)}
+            />
+          </Box>
         </Box>
         <Box display='flex' justifyContent='space-evenly' alignItems='center' mt='20px' mb='20px'>
           <Input
