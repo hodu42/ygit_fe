@@ -9,6 +9,7 @@ import useToastHandler from '../components/useToastHandler'
 
 export const MyPage = ():React.JSX.Element => {
     const [userInfo, setUserInfo] = React.useState<MyInfo | null>(null);
+    const [selectedModel, setSelectedModel] = React.useState<string>('');
     const showToast = useToastHandler();
 
     const handleFetch = async () => {
@@ -24,6 +25,32 @@ export const MyPage = ():React.JSX.Element => {
             })
         } catch (error) {
             showToast('유저 정보 불러오기 실패', '불러오기에 실패하였습니다.', 'error');
+        }
+    }
+
+    const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedModel(e.target.value)
+    }
+
+    // 모델 삭제 버튼 눌렀을 때 코드
+    const handleDeleteModel = async (currentModel: string) => {
+        try {
+            const data = {
+                model_name: currentModel
+            }
+            // TODO 백엔드 주소에 맞게 수정 필요
+            const response = await axios.delete(`${BASE_URL}/delete-model`, {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+                },
+                data: data
+            })
+            showToast('모델 삭제 성공', `${currentModel} 삭제 완료`, 'success');
+
+            // 삭제시 페이지 리로드
+            window.location.reload();
+        } catch  (error) {
+            showToast('모델 삭제 실패', '모델 삭제에 실패하였습니다.', 'error');
         }
     }
 
@@ -69,6 +96,7 @@ export const MyPage = ():React.JSX.Element => {
                             fontSize="1.5rem"
                             fontFamily='Pretendard'
                             fontWeight={600}
+                            onChange={handleChangeSelect}
                             sx={{
                                 textAlign: 'center',
                                 option: {
@@ -89,6 +117,7 @@ export const MyPage = ():React.JSX.Element => {
                             _hover={{bg: '#ff0000'}}
                             fontSize='1.3rem'
                             color='white'
+                            onClick={() => handleDeleteModel(selectedModel)}
                         >
                             삭제
                         </Button>
