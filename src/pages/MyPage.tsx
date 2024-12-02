@@ -50,7 +50,12 @@ export const MyPage = ():React.JSX.Element => {
             // 삭제시 페이지 리로드
             window.location.reload();
         } catch  (error) {
-            showToast('모델 삭제 실패', '모델 삭제에 실패하였습니다.', 'error');
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status === 452) {
+                    showToast('모델 삭제 실패', '기본 모델은 삭제할 수 없습니다', 'warning');
+                }
+                showToast('모델 삭제 실패', '모델 삭제에 실패하였습니다.', 'error');
+            }
         }
     }
 
