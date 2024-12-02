@@ -33,6 +33,7 @@ export function MainPage(): React.ReactElement {
   const [searchResult, setSearchResult] = React.useState<ImgIdx[]>([]);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [modalImage, setModalImage] = React.useState<ResultImage | null>(null);
+  const [currentImageSrc, setCurrentImageSrc] = React.useState<string>('');
   const navigate = useNavigate();
   const showToast = useToastHandler();
 
@@ -47,7 +48,7 @@ export function MainPage(): React.ReactElement {
   const handleImageClick = async (image_src: string ) => {
     try {
       image_src = image_src.replace("uploads\\", '')
-      console.log(image_src)
+      setCurrentImageSrc(image_src);
       const data = {
         image_src: image_src
       }
@@ -71,6 +72,30 @@ export function MainPage(): React.ReactElement {
   const handleClose = () => {
     setIsOpen(false);
     setModalImage(null);
+  }
+
+  // 삭제버튼 눌렀을 때 코드
+  const handleDeleteImage = async (currentImageSrc: string) => {
+    try {
+      const data = {
+        image_name: currentImageSrc
+      }
+      const response = await axios.delete(`${BASE_URL}/delete-image`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        },
+        data: data
+      })
+      showToast('이미지 삭제 성공', `${modalImage?.name} 삭제 완료`, 'success');
+      // resultImage 초기화
+      setModalImage(null);
+      setCurrentImageSrc('');
+      handleClose();
+      // 삭제시 태그 없이 다시 검색하게 만들기
+      window.location.reload();
+    } catch  (error) {
+      showToast('이미지 삭제 실패', '이미지 삭제에 실패하였습니다.', 'error');
+    }
   }
 
   useEffect(() => {
@@ -109,7 +134,7 @@ export function MainPage(): React.ReactElement {
                   <ImageComponent name={image.name} image={`${BASE_URL}/${image.src}`} onClick={() => handleImageClick(image.src)}/>
                 ))
               }
-              <ModalImage isOpen={isOpen} handleClose={handleClose} modalImage={modalImage}/>
+              <ModalImage isOpen={isOpen} handleClose={handleClose} modalImage={modalImage} onClick={() => handleDeleteImage(currentImageSrc)}/>
             </SimpleGrid>
           </Flex>
         </TabPanel>

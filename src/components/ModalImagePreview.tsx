@@ -8,9 +8,10 @@ import { DeleteButton } from '../components/DeleteButton'
 
 type ImagePreviewProps = {
   img: ResultImage
+  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export const ModalImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
+export const ModalImagePreview: React.FC<ImagePreviewProps> = ({ img, onClick }) => {
   return (
     <Box display='flex'
          flexDirection='column'
@@ -19,7 +20,7 @@ export const ModalImagePreview: React.FC<ImagePreviewProps> = ({ img }) => {
          position='relative'
          justifyContent='space-evenly'
          alignItems='center'>
-      <DeleteButton/>
+      <DeleteButton onClick={onClick}/>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
       <Box display="flex" width='80%' height='80%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
         <ChakraImage width='80%' height='60%' objectFit="contain" src={img.src}/>

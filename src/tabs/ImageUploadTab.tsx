@@ -12,6 +12,7 @@ export function ImageUploadTab():React.JSX.Element {
 
   const [resultImage, setResultImage] = useState<ResultImage | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [currentImageSrc, setCurrentImageSrc] = useState<string>('');
   const showToast = useToastHandler();
 
   // 파일을 업로드 하는 코드
@@ -55,6 +56,7 @@ export function ImageUploadTab():React.JSX.Element {
     if (files && files.length > 0) {
       const file = files[0];
       try {
+        // uploadedImage = 원본 이미지 이름
         const uploadedImage = await handleImageUpload(file);
         const tags = await getTagsFromImg(uploadedImage);
 
@@ -65,6 +67,7 @@ export function ImageUploadTab():React.JSX.Element {
           src: previewImage,
           tags: tags, // 필요할 경우 태그 설정
         });
+        setCurrentImageSrc(uploadedImage);
 
         showToast('업로드 완료', '이미지 업로드에 성공하였습니다.', 'success');
       } catch (any) {
@@ -102,12 +105,32 @@ export function ImageUploadTab():React.JSX.Element {
       handleUploadAndExtractTags(files)
     }
   }
+  // 삭제버튼 눌렀을 때 코드
+  const handleDeleteImage = async (currentImageSrc: string) => {
+    try {
+      const data = {
+        image_name: currentImageSrc
+      }
+      const response = await axios.delete(`${BASE_URL}/delete-image`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        },
+        data: data
+      })
+      showToast('이미지 삭제 성공', `${resultImage?.name} 삭제 완료`, 'success');
+      // resultImage 초기화
+      setResultImage(null);
+      setCurrentImageSrc('');
+    } catch  (error) {
+      showToast('이미지 삭제 실패', '이미지 삭제에 실패하였습니다.', 'error');
+    }
+  }
 
   return (
     <Box display='flex' justifyContent='center' alignItems='center' width='100%' height='100%'>
       {/* 이미지가 없으면 업로드화면 / 있으면 이미지 보여줌 */}
       {resultImage ?
-        <ImagePreview img={resultImage}/>
+        <ImagePreview img={resultImage} onClick={() => handleDeleteImage(currentImageSrc)}/>
         :
         <ImageUpload
           onDrop={handleDrop}

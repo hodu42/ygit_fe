@@ -4,15 +4,16 @@ import { FaTrashCan } from 'react-icons/fa6'
 import { Link as ChakraLink } from '@chakra-ui/react'
 import React from 'react'
 
-// type DeleteButtonProps = {
-//   onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-// }
+type DeleteButtonProps = {
+  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+}
 
-export const DeleteButton = () => {
+export const DeleteButton = ({ onClick }: DeleteButtonProps) => {
 
   return (
     <ChakraLink
       as={ReactRouterLink}
+      onClick={onClick}
       display="inline-flex"
       position='absolute'
       top={8}
