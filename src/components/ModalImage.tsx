@@ -15,8 +15,7 @@ export const ModalImage = ({isOpen, handleClose, modalImage, onClick}: ModalImag
     <Modal isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent minWidth='60%' height='85%'>
-        <ModalCloseButton />
-        <ModalBody padding={0}>
+        <ModalBody display='flex' padding={0} height='100%' alignItems='center'>
           {modalImage ? (
             <ModalImagePreview img={modalImage} onClick={onClick}/>
           ) : (

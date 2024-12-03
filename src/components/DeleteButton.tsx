@@ -6,9 +6,11 @@ import React from 'react'
 
 type DeleteButtonProps = {
   onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  top?: number;
+  right?: number;
 }
 
-export const DeleteButton = ({ onClick }: DeleteButtonProps) => {
+export const DeleteButton = ({ onClick, top = 8, right = 10 }: DeleteButtonProps) => {
 
   return (
     <ChakraLink
@@ -16,8 +18,8 @@ export const DeleteButton = ({ onClick }: DeleteButtonProps) => {
       onClick={onClick}
       display="inline-flex"
       position='absolute'
-      top={8}
-      right={10}
+      top={top}
+      right={right}
     >
       <Icon as={FaTrashCan} boxSize={{base : 41, xl: 55, '2xl': 70}} color='#f43535'/>
     </ChakraLink>

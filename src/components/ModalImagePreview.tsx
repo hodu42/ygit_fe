@@ -15,20 +15,20 @@ export const ModalImagePreview: React.FC<ImagePreviewProps> = ({ img, onClick })
   return (
     <Box display='flex'
          flexDirection='column'
-         width='100%' height='100%'
+         width='100%' height='80%'
          borderRadius={5} bg='#FFF'
          position='relative'
          justifyContent='space-evenly'
          alignItems='center'>
-      <DeleteButton onClick={onClick}/>
+      <DeleteButton onClick={onClick} top={0} right={10}/>
       {/* 이미지의 갯수가 하나 일 때 보여주는 방식 */}
-      <Box display="flex" width='80%' height='80%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
+      <Box display="flex" width='80%' height='100%' flexDirection="column" justifyContent='space-evenly' alignItems='center'>
         <ChakraImage width='80%' height='60%' objectFit="contain" src={img.src}/>
         <Text fontSize="1.5rem">
           {img.name}
         </Text>
       </Box>
-      <Wrap spacing={4}>
+      <Wrap spacing={4} height='auto'>
         {img.tags.length === 0
           ?
           <WrapItem key='empty'>
