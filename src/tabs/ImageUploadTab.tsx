@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, useToast } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import { ImgIdx, ResultImage } from '@types'
 import axios from 'axios'
@@ -14,6 +14,7 @@ export function ImageUploadTab():React.JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [currentImageSrc, setCurrentImageSrc] = useState<string>('');
   const showToast = useToastHandler();
+  const toast = useToast();
 
   // 파일을 업로드 하는 코드
   const handleImageUpload = async (file: Blob) => {
@@ -53,6 +54,13 @@ export function ImageUploadTab():React.JSX.Element {
   }
 
   const handleUploadAndExtractTags = async (files: FileList) => {
+    const loadingToast = toast({
+      title: '이미지 업로드 진행중',
+      description: '이미지 업로드가 진행중입니다',
+      status: 'loading',
+      duration: null, // 사용자가 닫기 전까지 유지
+      isClosable: false,
+    });
     if (files && files.length > 0) {
       const file = files[0];
       try {
@@ -68,9 +76,10 @@ export function ImageUploadTab():React.JSX.Element {
           tags: tags, // 필요할 경우 태그 설정
         });
         setCurrentImageSrc(uploadedImage);
-
+        toast.close(loadingToast);
         showToast('업로드 완료', '이미지 업로드에 성공하였습니다.', 'success');
       } catch (any) {
+        toast.close(loadingToast);
         showToast('업로드 실패', '이미지 업로드에 실패하였습니다.', 'error');
       }
     }
