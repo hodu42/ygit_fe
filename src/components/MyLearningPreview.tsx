@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Input, Select, Text, useToast } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react'
 import React, { Fragment, useEffect, useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../config/Config'
@@ -17,10 +17,6 @@ export const MyLearningPreview: React.FC<MyLearningPreviewProps> = ({ imgs, setT
   const [labelInput, setLabelInput] = React.useState<string>('');
   const [newModelInput, setNewModelInput] = React.useState<string>('');
   const toast = useToast();
-
-  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedModel(e.target.value)
-  }
 
   const handleImagesUpload = async () => {
     const loadingToast = toast({

@@ -8,7 +8,7 @@ type MyLearningImageComponentProps = {
   src: string;
 }
 
-export function MyLearningImageComponent({ name, src }: ResultImageWithoutTags):React.ReactElement {
+export function MyLearningImageComponent({ name, src }: MyLearningImageComponentProps):React.ReactElement {
 
   // 파일 이름과 확장자 분리
   const parts = name.split('.');

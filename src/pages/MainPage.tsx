@@ -24,7 +24,6 @@ import { ImageUploadTab } from '../tabs/ImageUploadTab'
 import { MyLearningTab } from '../tabs/MyLearningTab'
 import { Logout } from '../components/Logout'
 import useToastHandler from '../components/useToastHandler'
-import { ModalImagePreview } from '../components/ModalImagePreview'
 import { ModalImage } from '../components/ModalImage'
 import { BASE_URL } from '../config/Config'
 
@@ -124,12 +123,6 @@ export function MainPage(): React.ReactElement {
           <Flex width='80%' flexDirection='column'>
             <SearchBox searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchResult={searchResult} setSearchResult={setSearchResult} isLoading={isLoading} setIsLoading={setIsLoading}/>
             <SimpleGrid justifyItems='center' columns={{ base: 1, sm: 2, md: 3, lg: 4, '2xl': 6}} spacingY={8}>
-              {/* 폴더 리스트 보여주는 코드 */}
-              {/*{*/}
-              {/*  folderList.map((folder) => (*/}
-              {/*    <FolderComponent key={folder} onClick={() => updateResult(folder)} folderName={folder} />*/}
-              {/*  ))*/}
-              {/*}*/}
               {
                 searchResult.map((image) => (
                   <Skeleton isLoaded={!isLoading} fadeDuration={1}>
