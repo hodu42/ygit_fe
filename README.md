@@ -1,46 +1,125 @@
-# Getting Started with Create React App
+# 🏷️ 여기있태 (YGIT)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> 이미지를 올리면 AI가 자동으로 태그를 뽑아, 태그로 검색할 수 있는 이미지 관리 서비스.
+> 직접 라벨링한 이미지로 모델을 파인튜닝해 나만의 태그 인식 모델을 만들 수 있습니다.
 
-## Available Scripts
+| 기간 | 팀 구성 | 담당 |
+|---|---|---|
+| 2024.08 ~ 2024.12 | 3인 | **Frontend** |
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ 주요 기능
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<!-- TODO: 기능별 스크린샷 -->
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+| 기능 | 설명 |
+|---|---|
+| 이미지 업로드 | 업로드 시 AI가 자동으로 태그 추출 |
+| 태그 검색 | 추출된 태그로 이미지 검색 |
+| 커스텀 모델 | 라벨링한 이미지로 파인튜닝해 전용 태그 인식 모델 생성 |
+| 모델 관리 | 생성한 모델 목록 조회 및 관리 |
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ 기술 스택
 
-### `npm run build`
+| 구분 | 사용 기술 |
+|---|---|
+| Core | React 18, TypeScript |
+| UI | Chakra UI, Emotion, react-icons |
+| 라우팅 | React Router 6 |
+| 통신 | Axios, qs |
+| 빌드 | Create React App, cross-env |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🙋 담당 구현
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+프론트엔드를 담당해 아래 화면을 구현했습니다.
 
-### `npm run eject`
+| 페이지 | 내용 |
+|---|---|
+| 로그인 | 사용자 인증 |
+| 업로드 | 이미지 업로드와 자동 태그 결과 표시 |
+| 검색 | 태그 기반 이미지 검색 |
+| 마이페이지 | 내 이미지와 커스텀 모델 관리 |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🧯 트러블슈팅
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+커밋 기록에서 원인을 찾아 해결한 문제들입니다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 1. 태그 검색만 인증에 실패함
 
-## Learn More
+**증상** — 다른 기능은 정상인데 태그 검색 요청에서만 인증이 통과되지 않았습니다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**원인** — 프론트엔드는 `sessionStorage`에 담아둔 토큰을 `Authorization: Bearer`로 보내고 있었지만, 백엔드는 쿠키 기반 인증을 사용하고 있었습니다. 헤더를 아무리 맞춰도 서버가 보는 자격 증명은 비어 있었습니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**해결** — 헤더를 직접 붙이는 대신 `withCredentials: true`로 쿠키가 함께 전송되도록 바꿨습니다.
+
+인증 방식을 팀 내에서 합의하지 않고 각자 익숙한 방식으로 구현한 것이 원인이었습니다. 이후로는 통신 규격을 먼저 맞추고 작업을 시작했습니다.
+
+### 2. 검색 결과 이미지 수만큼 요청이 발생함
+
+**원인** — 검색 API는 이미지 식별자 목록만 내려줬습니다. 프론트엔드는 목록을 받은 뒤 이미지마다 `/images/{id}`를 `arraybuffer`로 개별 요청해 화면에 그렸습니다. 결과가 20건이면 요청도 21번 나갔고, 응답이 도착하는 순서에 따라 화면이 여러 번 다시 그려졌습니다.
+
+**해결** — 백엔드와 응답 형태를 조정해 검색 결과에 **이미지 경로를 함께 내려주도록** 바꿨습니다. 프론트엔드는 받은 경로를 `src`에 그대로 넣기만 하면 되어, 추가 요청과 중간 변환이 모두 사라졌습니다.
+
+### 3. 마이페이지 진입 시 모델이 선택되지 않음
+
+**증상** — 모델 목록은 정상적으로 보이는데, 첫 진입에서 기본 선택이 비어 있었습니다.
+
+**원인** — 사용자 정보를 받아온 직후, 같은 함수 안에서 기본 모델을 지정하려 했습니다.
+
+```tsx
+setUserInfo({ ... });
+
+if (userInfo) {                                  // 아직 이전 값(빈 상태)
+  setSelectedModel(response.data.model_list[0]); // 실행되지 않음
+}
+```
+
+`setUserInfo`는 즉시 반영되지 않으므로, 바로 아래에서 읽은 `userInfo`는 갱신 전 값이었습니다.
+
+**해결** — 세 번의 시도 끝에, 기본값 설정을 데이터를 가져오는 함수에서 떼어내 `userInfo` 변경에 반응하는 별도의 `useEffect`로 옮겼습니다.
+
+```tsx
+useEffect(() => {
+  if (userInfo && userInfo.modelLists.length > 0) {
+    setSelectedModel(userInfo.modelLists[0]);
+  }
+}, [userInfo]);
+```
+
+상태 갱신이 비동기라는 점을 처음으로 체감한 문제였습니다.
+
+### 4. 파인튜닝 중 화면이 멈춘 것처럼 보임
+
+**원인** — 모델 학습은 수 분이 걸리는 작업인데, 요청을 보낸 뒤 아무 표시가 없었습니다. 사용자는 버튼이 눌렸는지조차 알 수 없었습니다.
+
+**해결** — 요청 직전에 `duration: null` 로딩 토스트를 띄워 응답이 올 때까지 유지하고, 완료 시 닫은 뒤 성공 토스트와 함께 결과 탭으로 이동시켰습니다. 실패 시에도 오류 토스트로 결과를 알리도록 했습니다.
+
+토스트는 `useToastHandler`로 분리해 성공·실패·오류 표시를 화면마다 동일하게 사용했습니다.
+
+---
+
+## 🔭 아쉬웠던 점
+
+첫 프로젝트라 상태 관리 도구 없이 `useState`와 props만으로 화면을 구성했고, API는 컴포넌트에서 axios를 직접 호출했습니다.
+
+화면이 늘어나면서 같은 데이터를 여러 컴포넌트에 props로 내려보내는 구조가 됐고, 어디서 상태가 바뀌는지 추적하기 어려워졌습니다.
+이때 겪은 불편이 이후 프로젝트에서 상태 관리와 서버 상태 분리를 찾아보게 된 계기가 됐습니다.
+
+---
+
+## ⚙️ 실행 방법
+
+```bash
+git clone https://github.com/hodu42/ygit_fe.git
+cd ygit_fe
+
+npm install
+npm run dev
+```
